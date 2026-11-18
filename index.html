@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Límites, nociones y aplicación de derivadas · Matemáticas · UV</title>
+<meta name="description" content="Clase interactiva de límites y derivadas para Ingeniería en Agronomía: ganancia de peso de un novillo y turno forestal, con retos, animaciones, videos y reporte PDF para Eminus 4.">
+<style>
+:root{color-scheme:dark;--bg:#09121f;--panel:#122135;--card:#162940;--line:#2b415d;--text:#edf4ff;--muted:#b2c3d9;--mint:#77e3bc;--blue:#80beff;--gold:#f1c17d;--red:#ff9a9a;--pine:#5fc48a;--cow:#e6a86b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 'Segoe UI',Arial,sans-serif}
+a{color:var(--blue);text-underline-offset:3px}
+button{font:inherit;font-size:14px;font-weight:650;border:1px solid var(--mint);background:var(--mint);color:#08251d;padding:9px 15px;border-radius:8px;cursor:pointer}
+button:hover{filter:brightness(1.1)}
+button.secondary{background:transparent;color:var(--text);border-color:var(--line)}
+button.danger{background:transparent;color:var(--red);border-color:#6b3340}
+button:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+header{height:60px;position:fixed;inset:0 0 auto;z-index:20;display:flex;align-items:center;justify-content:space-between;background:#0d1929;border-bottom:1px solid var(--line);padding:8px 20px;gap:10px}
+header strong{font-size:14px;letter-spacing:.06em}
+header .right{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--muted)}
+#progBadge{background:#173a35;border:1px solid #2f6a5c;color:var(--mint);padding:4px 10px;border-radius:20px;font-weight:700}
+#menuBtn{display:none;padding:6px 10px}
+nav{position:fixed;left:0;top:60px;bottom:0;width:262px;padding:16px 10px 70px;overflow:auto;background:#0c1828;border-right:1px solid var(--line);z-index:15}
+nav button{width:100%;text-align:left;color:var(--muted);background:transparent;border:0;font-weight:400;padding:7px 10px;margin:1px 0;font-size:13.5px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+nav button.active{background:#1e3a47;color:var(--mint);font-weight:700}
+nav .min{font-size:11px;color:#7f93ad;flex:none}
+nav .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--line);flex:none}
+nav .dot.done{background:var(--mint);border-color:var(--mint)}
+nav .dot.half{background:linear-gradient(90deg,var(--mint) 50%,transparent 50%);border-color:var(--mint)}
+nav .label{flex:1}
+#progress{height:6px;background:var(--line);border-radius:4px;margin:6px 10px 14px;overflow:hidden}
+#progress i{display:block;height:100%;background:var(--mint);width:0;transition:width .4s}
+main{margin:60px 0 0 262px;padding:34px clamp(18px,4vw,64px) 110px;max-width:1250px}
+.lesson{display:none}.lesson.active{display:block}
+h1{font-size:clamp(28px,3vw,42px);line-height:1.18;letter-spacing:-.02em;margin:8px 0 16px}
+h2{font-size:25px;line-height:1.3;margin:32px 0 10px}
+h3{font-size:19px;line-height:1.35;margin:16px 0 6px}
+p{margin:10px 0 16px}
+.lead{font-size:19px;color:var(--muted);max-width:920px}
+.eyebrow{color:var(--mint);letter-spacing:.13em;font-size:12px;font-weight:700;text-transform:uppercase}
+.grid2,.grid3{display:grid;gap:18px;margin:20px 0}
+.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:repeat(3,1fr)}
+.grid2>*,.grid3>*{min-width:0}
+article,.card{padding:18px 22px;background:var(--panel);border:1px solid var(--line);border-radius:13px;margin:14px 0}
+.grid2 article,.grid3 article{margin:0}
+.hero{padding:26px;background:linear-gradient(130deg,#183e40,#14233b);border-radius:18px;margin:20px 0}
+.hero.cow{background:linear-gradient(130deg,#43301c,#14233b)}
+.hero.pine{background:linear-gradient(130deg,#173e27,#14233b)}
+.pill{font-size:11px;letter-spacing:.06em;border:1px solid var(--line);padding:4px 9px;border-radius:20px;display:inline-block;color:var(--muted);margin:2px}
+.callout{background:#143638;border-left:4px solid var(--mint);padding:14px 18px;border-radius:8px;margin:16px 0}
+.callout.warn{background:#3a2f17;border-left-color:var(--gold)}
+.callout.info{background:#15294a;border-left-color:var(--blue)}
+.analogy{background:linear-gradient(120deg,#2b2140,#15294a);border:1px solid #4b3f73;border-radius:14px;padding:16px 20px;margin:16px 0;display:flex;gap:16px;align-items:flex-start}
+.analogy .em{font-size:44px;line-height:1}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:650;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.formula{font-family:Cambria,'Times New Roman',serif;font-size:22px;background:#0e1c2e;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:12px 0;text-align:center;overflow-x:auto}
+.formula small{display:block;font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:var(--muted);margin-top:4px}
+.m{font-family:Cambria,'Times New Roman',serif;font-size:1.08em;white-space:nowrap}
+.calc{font-family:Consolas,monospace;background:#0b1626;border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:.92em}
+details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:12px 0}
+details summary{cursor:pointer;font-weight:650}
+.worked{background:#101f33;border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:16px 0}
+.worked h3{margin-top:4px;color:var(--gold)}
+.worked ol li,.worked ul li{margin:4px 0}
+/* glosario */
+.glos{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:16px 0}
+.glos div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.glos .ic{font-size:34px}
+.glos b{display:block;color:var(--gold);margin:4px 0 2px}
+.glos span{font-size:15px;color:var(--muted)}
+/* video */
+.video{background:#101a2c;border:1px solid var(--line);border-radius:14px;padding:12px;margin:18px 0;display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:center}
+.video .thumb{position:relative;cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#000}
+.video .thumb img{width:100%;height:100%;object-fit:cover;opacity:.85}
+.video .thumb::after{content:'▶';position:absolute;inset:0;display:grid;place-items:center;font-size:42px;color:#fff;text-shadow:0 2px 10px #000}
+.video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px}
+.video.open{grid-template-columns:1fr}
+.video.short.open iframe{aspect-ratio:9/16;max-width:340px;margin:0 auto;display:block}
+.video .vt{font-weight:700}.video .vm{color:var(--muted);font-size:14px}
+/* ejercicios */
+.ex{border:1px solid #2f6a5c;background:#0f2430;border-radius:14px;padding:16px 20px;margin:20px 0;position:relative}
+.ex .tag{color:var(--mint);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.ex.game{border-color:#6a5530;background:linear-gradient(140deg,#2c2414,#0f2430)}
+.ex.game .tag{color:var(--gold)}
+.ex .enun{margin:6px 0 10px}
+.ex .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ex input[type=text]{font:inherit;font-size:16px;background:#0b1626;border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:8px;width:170px}
+.ex textarea{font:inherit;font-size:15px;background:#0b1626;border:1px solid var(--line);color:var(--text);padding:10px;border-radius:8px;width:100%;min-height:110px}
+.ex .opts label{display:block;padding:7px 10px;border:1px solid var(--line);border-radius:8px;margin:6px 0;cursor:pointer;background:#0b1a2b}
+.ex .opts label:hover{border-color:var(--mint)}
+.ex .opts input{margin-right:8px}
+.vopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:10px 0}
+.vopts label{border:2px solid var(--line);border-radius:12px;padding:8px;cursor:pointer;background:#0b1a2b;display:block;position:relative}
+.vopts label:hover{border-color:var(--blue)}
+.vopts input{position:absolute;opacity:0}
+.vopts input:checked+canvas{outline:3px solid var(--mint);outline-offset:3px;border-radius:6px}
+.vopts canvas{width:100%;height:150px;display:block}
+.vopts .lt{position:absolute;top:10px;left:12px;background:var(--mint);color:#08251d;font-weight:800;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+.ex .fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:15px;display:none}
+.ex .fb.ok{display:block;background:#123a2c;border-left:4px solid var(--mint)}
+.ex .fb.bad{display:block;background:#3a1d24;border-left:4px solid var(--red)}
+.ex .fb.sol{display:block;background:#3a2f17;border-left:4px solid var(--gold)}
+.ex .fb.note{display:block;background:#15294a;border-left:4px solid var(--blue)}
+.ex.done{border-color:var(--mint)}
+.ex.done::after{content:'✓';position:absolute;right:-10px;top:-10px;background:var(--mint);color:#08251d;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800}
+.ex.fail::after{content:'!';position:absolute;right:-10px;top:-10px;background:var(--gold);color:#3a2f17;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800}
+.unit{color:var(--muted);font-size:14px}
+details.guia{background:#122a26;border:1px dashed #2f6a5c;border-radius:10px;padding:8px 14px;margin:6px 0 12px}
+details.guia summary{color:var(--mint);font-size:14px}
+details.guia ol,details.guia ul{margin:6px 0 4px;padding-left:22px}
+details.guia li{margin:3px 0;font-size:15px}
+/* gráficas */
+.plotbox{background:#0b1626;border:1px solid var(--line);border-radius:12px;padding:12px;margin:14px 0}
+canvas.plot{width:100%;height:360px;display:block}
+canvas.click{cursor:crosshair}
+.ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 22px;margin:10px 0}
+.ctrls label{font-size:14px;color:var(--muted);display:block}
+.ctrls input[type=range]{width:100%;accent-color:var(--mint)}
+.ctrls b{color:var(--text);font-variant-numeric:tabular-nums}
+.readout{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.readout span{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:14px}
+.readout b{color:var(--gold)}
+.stage{display:flex;align-items:flex-end;gap:24px;min-height:150px;padding:10px 16px;background:linear-gradient(#0b1626 70%,#1d3b22 70%);border-radius:12px;margin:10px 0;overflow:hidden}
+.stage .actor{transition:font-size .15s;line-height:1}
+.stage .info{font-size:14px;color:var(--muted);padding-bottom:6px}
+/* juegos */
+.memo{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.memo button{min-height:74px;font-family:Cambria,'Times New Roman',serif;font-size:19px;background:#1b2f48;color:transparent;border:2px solid var(--line);position:relative}
+.memo button::before{content:'🌱';color:#fff;position:absolute;inset:0;display:grid;place-items:center;font-size:26px}
+.memo button.up,.memo button.ok{color:var(--text);background:#173a35}
+.memo button.up::before,.memo button.ok::before{content:''}
+.memo button.ok{border-color:var(--mint);cursor:default}
+.memo button.wrong{border-color:var(--red)}
+.lopts{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.lopts button{min-width:110px;background:#1b2f48;color:var(--text);border-color:var(--line);font-size:17px}
+.lopts button.right{background:#123a2c;border-color:var(--mint)}
+.lopts button.wrongb{background:#3a1d24;border-color:var(--red)}
+.score{display:inline-block;background:#3a2f17;border:1px solid #6a5530;color:var(--gold);border-radius:20px;padding:3px 12px;font-size:14px;font-weight:700}
+.pager{display:flex;justify-content:space-between;margin-top:40px;gap:10px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.form label{font-size:13px;color:var(--muted);display:block;margin-bottom:4px}
+.form input{font:inherit;width:100%;background:#0b1626;border:1px solid var(--line);color:var(--text);padding:9px 12px;border-radius:8px}
+.form input[readonly]{color:var(--muted)}
+.refs li{margin:8px 0}.refs .why{display:block;color:var(--muted);font-size:14px}
+.check li{list-style:none;margin:4px 0}
+.check li::before{content:'○ ';color:var(--muted)}
+.check li.ok::before{content:'● ';color:var(--mint)}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1e3a47;border:1px solid var(--mint);color:var(--text);padding:10px 18px;border-radius:10px;z-index:50;display:none;max-width:90vw}
+.timechip{display:inline-block;font-size:12px;color:var(--gold);border:1px solid #6a5530;border-radius:20px;padding:2px 10px;margin-left:8px;vertical-align:middle}
+@media (max-width:900px){
+  nav{transform:translateX(-100%);transition:transform .25s}nav.open{transform:none}
+  main{margin-left:0}#menuBtn{display:inline-block}
+  .grid2,.grid3,.form,.video{grid-template-columns:1fr}
+  .memo{grid-template-columns:repeat(3,1fr)}
+  header .right .hide-s{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;align-items:center;gap:10px"><button id="menuBtn" class="secondary" aria-label="Menú">☰</button><strong>LÍMITES Y DERIVADAS · MATEMÁTICAS UV</strong></div>
+  <div class="right"><span class="hide-s" id="whoChip">Sin registrar</span><span id="progBadge">0 / 0 actividades</span></div>
+</header>
+<nav id="nav"><div id="progress"><i></i></div><div id="navList"></div></nav>
+<main id="main">
+
+<!-- ===================== 0. INICIO ===================== -->
+<section class="lesson" data-title="Inicio y registro" data-min="3">
+  <div class="eyebrow">Universidad Veracruzana · Ingeniería en Agronomía · EE Matemáticas</div>
+  <h1>Límites, nociones y aplicación de derivadas</h1>
+  <p class="lead">¿Cuántos kilos sube un novillo <b>hoy</b>? ¿En qué momento conviene venderlo? ¿Cuándo deja un bosque de crecer lo suficiente como para cortarlo? Para responder necesitamos dos ideas del cálculo: el <b>límite</b> («¿a qué valor me acerco?») y la <b>derivada</b> («¿qué tan rápido cambia algo en este instante?»).</p>
+  <div class="hero">
+    <div class="grid3" style="margin:0">
+      <div><div class="eyebrow">Docente</div><div>Dr. Gustavo Ortiz Hernández</div></div>
+      <div><div class="eyebrow">Experiencia educativa</div><div>Matemáticas</div></div>
+      <div><div class="eyebrow">Tema</div><div>Límites, nociones y aplicación de derivadas</div></div>
+    </div>
+  </div>
+  <h2>1. Regístrate</h2>
+  <p>Tu nombre y matrícula aparecerán en la portada y en cada página del reporte PDF que subirás a Eminus 4. Tu avance se guarda en este navegador.</p>
+  <div class="form">
+    <div><label for="inNombre">Nombre completo (apellidos y nombre)</label><input id="inNombre" autocomplete="name" placeholder="p. ej. Hernández López María Fernanda"></div>
+    <div><label for="inMatricula">Matrícula</label><input id="inMatricula" placeholder="p. ej. zS25012345"></div>
+    <div><label>Docente</label><input value="Dr. Gustavo Ortiz Hernández" readonly></div>
+    <div><label>Experiencia educativa</label><input value="Matemáticas" readonly></div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center"><button id="btnRegistro">Guardar y comenzar →</button><span id="regMsg" class="unit"></span></div>
+  <h2>2. Lo que lograrás</h2>
+  <div class="grid2">
+    <article><h3>Objetivos</h3><ul>
+      <li>Explicar con tus palabras qué es un límite y estimarlo con tablas y gráficas.</li>
+      <li>Entender la derivada como la <b>rapidez de cambio en un instante</b> y como la pendiente de la recta tangente.</li>
+      <li>Derivar funciones sencillas con la regla de la potencia.</li>
+      <li>Usar la derivada para encontrar el mejor momento de vender un novillo y de cortar una plantación.</li>
+    </ul></article>
+    <article><h3>Ruta de la clase (≈ 60 min)</h3><table>
+      <tr><td>Glosario del campo</td><td class="num">3 min</td></tr>
+      <tr><td>1. Límites: ¿a qué me acerco?</td><td class="num">10 min</td></tr>
+      <tr><td>2. La derivada: rapidez en un instante</td><td class="num">12 min</td></tr>
+      <tr><td>3. Reglas para derivar</td><td class="num">6 min</td></tr>
+      <tr><td>4. Máximos y mínimos</td><td class="num">5 min</td></tr>
+      <tr><td>5. Caso 1: el novillo en engorda</td><td class="num">12 min</td></tr>
+      <tr><td>6. Caso 2: el turno forestal</td><td class="num">8 min</td></tr>
+      <tr><td>7–9. Reto final, referencias y PDF</td><td class="num">4 min</td></tr>
+    </table></article>
+  </div>
+  <div class="callout info"><b>Cómo funciona.</b> Cada actividad se corrige al pulsar <span class="m">Comprobar</span>. Tienes <b>2 intentos</b>: si no aciertas, recibirás una pista; después del segundo intento verás la solución explicada. Abre «💡 Cómo resolverlo paso a paso» cuando lo necesites. Los <b>retos</b> (🎮) son juegos: puedes repetirlos. Los <b>videos</b> (🎬) son de apoyo y no cuentan en el tiempo de la clase. Usa punto o coma decimal y ten a mano una calculadora.</div>
+</section>
+
+<!-- ===================== GLOSARIO ===================== -->
+<section class="lesson" data-title="Glosario del campo" data-min="3">
+  <div class="eyebrow">Antes de empezar <span class="timechip">≈ 3 min</span></div>
+  <h1>Glosario del campo</h1>
+  <p class="lead">Todavía no eres agrónomo y no tienes por qué saber todo esto. Estas son las palabras del campo que usaremos hoy, explicadas de forma sencilla. Vuelve aquí cuando encuentres una que no recuerdes.</p>
+  <h2>🐂 Ganadería</h2>
+  <div class="glos">
+    <div><div class="ic">🐂</div><b>Novillo</b><span>Bovino macho joven, castrado, que se cría para producir carne. Entra a la engorda pesando unos 250 kg.</span></div>
+    <div><div class="ic">🏠</div><b>Corral de engorda</b><span>Lugar donde los animales comen una dieta balanceada para subir de peso rápido antes de venderse.</span></div>
+    <div><div class="ic">⚖️</div><b>Peso vivo (kg en pie)</b><span>Lo que pesa el animal vivo en la báscula. El ganado se compra y se vende por kilo en pie.</span></div>
+    <div><div class="ic">📈</div><b>Ganancia diaria de peso (GDP)</b><span>Cuántos kilos sube el animal por día (kg/día). ¡Es una derivada! Al inicio sube más y, conforme madura, sube menos.</span></div>
+    <div><div class="ic">🌽</div><b>Costo de alimentación</b><span>Lo que cuesta darle de comer cada día ($/día): forraje, granos, sales minerales.</span></div>
+    <div><div class="ic">💰</div><b>Precio por kilo</b><span>Lo que el comprador paga por cada kilo de peso vivo ($/kg).</span></div>
+  </div>
+  <h2>🌲 Forestal</h2>
+  <div class="glos">
+    <div><div class="ic">🌲</div><b>Plantación y rodal</b><span>Una plantación es un bosque sembrado por personas. Un rodal es un grupo de árboles parecidos (misma especie y edad) que se maneja como una unidad.</span></div>
+    <div><div class="ic">🧊</div><b>Volumen (m³/ha)</b><span>La madera se mide en metros cúbicos: un cubo de 1 m por lado. Se expresa por hectárea (ha), que es un cuadro de 100 m × 100 m, como un campo de fútbol y medio.</span></div>
+    <div><div class="ic">📏</div><b>ICA: incremento corriente anual</b><span>Cuánta madera crece el bosque <i>en este momento</i> por año. Es la <b>derivada</b> del volumen.</span></div>
+    <div><div class="ic">📊</div><b>IMA: incremento medio anual</b><span>El promedio de madera producida por año desde que se plantó: volumen ÷ edad.</span></div>
+    <div><div class="ic">🪓</div><b>Turno</b><span>La edad a la que se corta (cosecha) la plantación. El <i>turno técnico</i> es la edad en que el IMA es el más alto posible.</span></div>
+    <div><div class="ic">🧱</div><b>Asíntota</b><span>Un «techo» al que una curva se acerca cada vez más, sin rebasarlo. Por ejemplo, el volumen máximo que puede tener el bosque en ese sitio.</span></div>
+  </div>
+  <h2>🌱 Agronomía</h2>
+  <div class="glos">
+    <div><div class="ic">🌽</div><b>Rendimiento (t/ha)</b><span>Cuántas toneladas de grano se cosechan por hectárea.</span></div>
+    <div><div class="ic">🧪</div><b>Dosis de nitrógeno (kg N/ha)</b><span>Cuánto fertilizante nitrogenado se aplica. Poco no alcanza y mucho ya no ayuda, e incluso perjudica.</span></div>
+    <div><div class="ic">💧</div><b>Humedad del suelo</b><span>Cuánta agua hay en el suelo disponible para la planta. Baja con los días de calor y sube con la lluvia o el riego.</span></div>
+  </div>
+</section>
+
+<!-- ===================== 1. LÍMITES ===================== -->
+<section class="lesson" data-title="1. Límites: ¿a qué me acerco?" data-min="10">
+  <div class="eyebrow">Sección 1 <span class="timechip">≈ 10 min</span></div>
+  <h1>Límites: ¿a qué valor me acerco?</h1>
+  <div class="analogy"><div class="em">🐄</div><div><b>Imagina una vaca que camina hacia el bebedero.</b> Cada minuto avanza la mitad de lo que le falta: 8 m, luego 4, luego 2, luego 1, 0.5… Se acerca <i>tanto como quieras</i> al bebedero. En matemáticas decimos que la distancia <b>tiende a 0</b>: su límite es 0. El límite no pregunta «¿dónde está?», sino <b>«¿a dónde se dirige?»</b>.</div></div>
+  <div class="formula">lim<sub>x→a</sub> f(x) = L<small>Se lee: «el límite de f(x) cuando x tiende a a es L»: si x se acerca a a, f(x) se acerca a L.</small></div>
+  <h2>Animación: acercándonos a x = 3</h2>
+  <p>La función <span class="m">f(x) = (x² − 9)/(x − 3)</span> tiene un problema en <span class="m">x = 3</span>: queda <span class="m">0/0</span> y la calculadora marca error. Pero, ¿a qué se acerca f(x) cuando x se acerca a 3? Pulsa ▶ y mira los dos puntos que se acercan, uno por la izquierda y otro por la derecha.</p>
+  <div class="plotbox">
+    <canvas class="plot" id="cvLim" style="height:320px"></canvas>
+    <div class="row" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="btnLimPlay">▶ Animar acercamiento</button><button id="btnLimReset" class="secondary">↺ Reiniciar</button><span class="unit">El círculo hueco en x = 3 significa «aquí la función no está definida».</span></div>
+    <table id="tabLim"><tr><th>x (por la izquierda)</th><th class="num">f(x)</th><th>x (por la derecha)</th><th class="num">f(x)</th></tr></table>
+  </div>
+  <div class="worked"><h3>¿Por qué da ese valor? (truco algebraico)</h3>
+    <ol>
+      <li>Factoriza el numerador: <span class="m">x² − 9 = (x − 3)(x + 3)</span>.</li>
+      <li>Para x ≠ 3 se cancela: <span class="m">(x − 3)(x + 3)/(x − 3) = x + 3</span>.</li>
+      <li>Ahora sustituye x = 3 en la versión simplificada. ¡Ese es el límite!</li>
+    </ol>
+    <p><b>Moraleja:</b> el límite puede existir aunque la función no esté definida en ese punto.</p></div>
+  <div class="ex" data-id="l1"></div>
+  <h2>Límites laterales: ¿llegan al mismo lugar?</h2>
+  <div class="grid2">
+    <article><h3>Por la izquierda y por la derecha</h3><p><span class="m">lim<sub>x→a⁻</sub></span> significa acercarse con valores <b>menores</b> que a, y <span class="m">lim<sub>x→a⁺</sub></span> con valores <b>mayores</b>. El límite existe solo si ambos caminos llegan al <b>mismo</b> número.</p></article>
+    <article><h3>Ejemplo del campo: el precio por volumen</h3><p>Un acopiador paga $5/kg si entregas menos de 2 t y $7/kg si entregas 2 t o más. Al acercarte a 2 t por la izquierda el precio tiende a 5, y por la derecha tiende a 7. Como no coinciden, <b>el límite en 2 no existe</b>: la gráfica da un «salto».</p></article>
+  </div>
+  <div class="ex" data-id="l2"></div>
+  <h2>Límites al infinito: el «techo» de crecimiento</h2>
+  <div class="analogy"><div class="em">🐮</div><div>Una becerra crece rápido de joven y, de adulta, casi deja de crecer. Si su peso fuera <span class="m">W(t) = 600 − 350e<sup>−0.004t</sup></span> (kg, t en días), al pasar los años <span class="m">e<sup>−0.004t</sup></span> se hace cada vez más pequeño (casi 0) y W se acerca a un techo. Ese techo es el <b>límite cuando t → ∞</b> y en la gráfica se ve como una <b>asíntota horizontal</b>.</div></div>
+  <div class="worked"><h3>Cómo calcular un límite al infinito (paso a paso)</h3>
+    <ol>
+      <li>Pregúntate qué le pasa a cada parte cuando t es enorme (1000, 10 000, 100 000…).</li>
+      <li><span class="m">e<sup>−0.004·10000</sup> = e<sup>−40</sup> ≈ 0.000000000000000004</span>: prácticamente 0.</li>
+      <li>Sustituye ese «casi 0» en la fórmula: <span class="m">W → número − 350 × 0</span>.</li>
+      <li>Otro ejemplo: <span class="m">6/x</span> cuando x → ∞ tiende a 0, porque repartes 6 entre cada vez más partes.</li>
+    </ol></div>
+  <div class="ex" data-id="l3"></div>
+  <div class="ex" data-id="l4"></div>
+  <div class="ex" data-id="l5"></div>
+</section>
+
+<!-- ===================== 2. DERIVADA ===================== -->
+<section class="lesson" data-title="2. La derivada: rapidez en un instante" data-min="12">
+  <div class="eyebrow">Sección 2 <span class="timechip">≈ 12 min</span></div>
+  <h1>La derivada: ¿qué tan rápido cambia en este instante?</h1>
+  <div class="analogy"><div class="em">🚜</div><div>Un tractor recorre 12 km en 2 horas: su velocidad <b>promedio</b> fue de 6 km/h. Pero el velocímetro marca la velocidad de <b>cada instante</b>: a veces 10 y a veces 3. La <b>derivada</b> es el «velocímetro» de una función: dice qué tan rápido cambia algo <i>justo ahora</i>, ya sea el peso de un animal, la altura de una planta o el volumen de un bosque.</div></div>
+  <h2>Paso 1: tasa de cambio promedio (pendiente de la secante)</h2>
+  <div class="formula">tasa promedio = [f(b) − f(a)] / (b − a)<small>Cuánto cambió y, dividido entre cuánto cambió x. Gráficamente: la pendiente de la recta secante que une dos puntos.</small></div>
+  <div class="worked"><h3>Ejemplo resuelto: crecimiento de una plántula de frijol</h3>
+    <p>Medía 8 cm el día 5 y 20 cm el día 9. Tasa promedio = (20 − 8)/(9 − 5) = 12/4 = <b>3 cm/día</b>. «En promedio, creció 3 cm cada día entre el día 5 y el 9.»</p></div>
+  <div class="ex" data-id="d1"></div>
+  <h2>Paso 2: de la secante a la tangente (el límite entra en acción)</h2>
+  <p>La altura de una planta de maíz en sus primeros días se modela como <span class="m">h(t) = 0.3t²</span> (cm, t en días). Queremos su rapidez de crecimiento <b>exactamente el día 10</b>. Tomamos un segundo punto cada vez más cerca (Δt más pequeño) y vemos a qué se acerca la pendiente. Pulsa ▶.</p>
+  <div class="plotbox">
+    <canvas class="plot" id="cvSec"></canvas>
+    <div class="ctrls"><label>Δt (separación entre los dos puntos): <b id="lblDt">8.00</b> días<input type="range" id="slDt" min="0.01" max="8" step="0.01" value="8"></label>
+      <div style="display:flex;gap:10px;align-items:end"><button id="btnSecPlay">▶ Encoger Δt</button></div></div>
+    <div class="readout" id="secOut"></div>
+    <table id="tabSec"><tr><th class="num">Δt</th><th class="num">h(10+Δt)</th><th class="num">pendiente de la secante</th></tr></table>
+  </div>
+  <div class="formula">f′(a) = lim<sub>Δx→0</sub> [f(a + Δx) − f(a)] / Δx<small>La derivada es el límite de las pendientes de las secantes: la pendiente de la recta tangente, o la tasa de cambio instantánea.</small></div>
+  <div class="ex" data-id="d2"></div>
+  <h2>Animación: si haces zoom, la curva parece recta</h2>
+  <p>Mueve el zoom sobre el punto marcado. Mientras más te acercas, más se parece la curva a una recta. Esa recta es la <b>tangente</b> y su pendiente es la <b>derivada</b> en ese punto.</p>
+  <div class="plotbox"><canvas class="plot" id="cvZoom" style="height:300px"></canvas>
+    <div class="ctrls"><label>Zoom: <b id="lblZoom">1×</b><input type="range" id="slZoom" min="0" max="3" step="0.01" value="0"></label></div></div>
+  <div class="ex" data-id="d3"></div>
+  <h2>¿Qué nos dice el signo de la derivada?</h2>
+  <div class="grid3">
+    <article><h3>📈 f′ &gt; 0</h3><p>La función <b>sube</b>: la planta crece y el animal gana peso.</p></article>
+    <article><h3>📉 f′ &lt; 0</h3><p>La función <b>baja</b>: el suelo pierde humedad o el agua del bordo se evapora.</p></article>
+    <article><h3>⛰️ f′ = 0</h3><p>La curva está <b>plana</b> por un instante: en una cima (máximo) o en un valle (mínimo).</p></article>
+  </div>
+  <div class="ex" data-id="d4"></div>
+  <div class="ex" data-id="d5"></div>
+  <h2>🎬 Para reforzar: dos videos</h2>
+  <div class="video short" data-yt="0mhtBauEBkE" data-t="La derivada visualmente" data-c="BlueDot (@BlueDot96) · short de 53 s"></div>
+  <div class="video" data-yt="njLosaK1oMU" data-t="¿Qué es la DERIVADA? Explicación detallada paso a paso" data-c="WillyMath · 10:58"></div>
+</section>
+
+<!-- ===================== 3. REGLAS ===================== -->
+<section class="lesson" data-title="3. Reglas para derivar" data-min="6">
+  <div class="eyebrow">Sección 3 <span class="timechip">≈ 6 min</span></div>
+  <h1>Reglas para derivar sin sufrir</h1>
+  <p class="lead">Calcular límites cada vez sería muy cansado. Por suerte, alguien ya lo hizo por nosotros y nos dejó unas «recetas».</p>
+  <table>
+    <tr><th>Regla</th><th>Receta</th><th>Ejemplo</th><th>En palabras</th></tr>
+    <tr><td>Constante</td><td class="m">(c)′ = 0</td><td class="m">(250)′ = 0</td><td>Lo que no cambia tiene rapidez cero.</td></tr>
+    <tr><td>Potencia</td><td class="m">(xⁿ)′ = n·xⁿ⁻¹</td><td class="m">(x³)′ = 3x²</td><td>«El exponente baja a multiplicar y luego se le resta 1.»</td></tr>
+    <tr><td>Constante por función</td><td class="m">(c·f)′ = c·f′</td><td class="m">(0.3t²)′ = 0.3·2t = 0.6t</td><td>El número de adelante se queda esperando.</td></tr>
+    <tr><td>Suma y resta</td><td class="m">(f ± g)′ = f′ ± g′</td><td class="m">(250 + 1.2t)′ = 0 + 1.2</td><td>Se deriva término por término.</td></tr>
+    <tr><td>Recta</td><td class="m">(m·x)′ = m</td><td class="m">(8.5x)′ = 8.5</td><td>La derivada de una recta es su pendiente.</td></tr>
+  </table>
+  <div class="worked"><h3>Ejemplo resuelto: derivar paso a paso</h3>
+    <p>Derivemos <span class="m">f(x) = 4x³ − 2x² + 7x + 10</span>:</p>
+    <ol>
+      <li><span class="m">4x³</span>: el 3 baja y multiplica a 4, el exponente queda en 2, así que <span class="m">12x²</span>.</li>
+      <li><span class="m">−2x²</span>: el 2 baja, <span class="m">−2·2 = −4</span>, exponente 1, así que <span class="m">−4x</span>.</li>
+      <li><span class="m">7x</span>: es una recta y su derivada es <span class="m">7</span>.</li>
+      <li><span class="m">10</span>: es constante y su derivada es <span class="m">0</span>.</li>
+      <li>Resultado: <span class="m">f′(x) = 12x² − 4x + 7</span>. Para evaluar en x = 1: <span class="m">12 − 4 + 7 = 15</span>.</li>
+    </ol></div>
+  <div class="ex" data-id="k1"></div>
+  <div class="ex" data-id="k2"></div>
+  <div class="ex" data-id="k3"></div>
+</section>
+
+<!-- ===================== 4. MÁXIMOS ===================== -->
+<section class="lesson" data-title="4. Máximos y mínimos" data-min="5">
+  <div class="eyebrow">Sección 4 <span class="timechip">≈ 5 min</span></div>
+  <h1>Máximos y mínimos: buscar donde la derivada vale cero</h1>
+  <div class="analogy"><div class="em">⛰️</div><div>Si subes un cerro, vas cuesta arriba (pendiente positiva). Justo en la cima el piso está plano por un instante (pendiente cero) y después bajas (pendiente negativa). <b>El máximo está donde la derivada pasa de + a − y vale 0.</b> Con esta idea se encuentran la mejor dosis, el mejor día o la mejor edad.</div></div>
+  <div class="worked"><h3>Receta para optimizar</h3>
+    <ol>
+      <li>Escribe la función que quieres hacer máxima (o mínima).</li>
+      <li>Derívala.</li>
+      <li>Iguala la derivada a cero y despeja.</li>
+      <li>Revisa el signo antes y después: de + a − es máximo y de − a + es mínimo.</li>
+      <li>Interpreta con unidades: «la mejor dosis es … kg/ha».</li>
+    </ol>
+    <p><b>Ejemplo:</b> el rendimiento de sorgo es <span class="m">Y(N) = −0.02N² + 1.6N + 2</span>. Su derivada es <span class="m">Y′ = −0.04N + 1.6</span>; al igualarla a 0 queda <span class="m">N = 1.6/0.04 = 40</span>. Antes de 40, Y′ &gt; 0 (sube) y después, Y′ &lt; 0 (baja), así que en <b>N = 40</b> hay un máximo.</p></div>
+  <p>Para el maíz usaremos <span class="m">Y(N) = −0.01N² + 0.6N + 3</span>, con Y en t/ha y N en decenas de kg de N por hectárea (N = 10 significa 100 kg/ha).</p>
+  <div class="ex" data-id="o1"></div>
+  <div class="ex" data-id="o2"></div>
+  <div class="ex" data-id="o3"></div>
+</section>
+
+<!-- ===================== 5. GANADO ===================== -->
+<section class="lesson" data-title="5. Caso 1: el novillo en engorda" data-min="12">
+  <div class="eyebrow">Caso de estudio 1 · Ganadería <span class="timechip">≈ 12 min</span></div>
+  <h1>¿Cuándo vender a «Canelo», el novillo?</h1>
+  <div class="hero cow">
+    <p style="margin-top:0">Doña Rosa tiene un rancho en el norte de Veracruz. Compró a <b>Canelo</b>, un novillo de 250 kg, y lo metió al corral de engorda. Cada día Canelo come (eso cuesta dinero) y sube de peso (eso le dará dinero al venderlo). Pero conforme crece, cada día sube <b>menos</b> kilos. Doña Rosa pregunta: <b>«¿Qué día me conviene venderlo?»</b> <span class="pill">datos ilustrativos con fines didácticos</span></p>
+    <p style="margin-bottom:0">Un técnico pesó a Canelo varias veces y encontró que su peso sigue este modelo (válido de 0 a 250 días):</p>
+  </div>
+  <div class="formula">W(t) = 250 + 1.2t − 0.002t²<small>W: peso vivo (kg) · t: días en el corral de engorda</small></div>
+  <h2>Mira crecer a Canelo</h2>
+  <p>Mueve los días y observa el peso y la ganancia diaria de peso (la derivada). ¿Notas que Canelo sube cada vez menos kilos por día?</p>
+  <div class="plotbox">
+    <div class="stage"><div class="actor" id="cowActor" style="font-size:60px">🐂</div><div class="info" id="cowInfo"></div></div>
+    <div class="ctrls"><label>Día en el corral: <b id="lblCowT">0</b><input type="range" id="slCowT" min="0" max="250" step="1" value="0"></label></div>
+    <canvas class="plot" id="cvCow" style="height:300px"></canvas>
+  </div>
+  <h2>Parte A · Peso y ganancia promedio</h2>
+  <div class="ex" data-id="g1"></div>
+  <div class="ex" data-id="g2"></div>
+  <h2>Parte B · Ganancia diaria en un instante (derivada)</h2>
+  <p>La ganancia promedio depende del intervalo que elijas. Para saber cuánto sube Canelo <b>exactamente el día 60</b>, achicamos el intervalo:</p>
+  <table id="tabCowH"></table>
+  <div class="ex" data-id="g3"></div>
+  <div class="worked"><h3>Ahora con las reglas (más rápido)</h3>
+    <ol>
+      <li><span class="m">250</span> es constante y su derivada es 0.</li>
+      <li><span class="m">1.2t</span> es una recta y su derivada es 1.2.</li>
+      <li><span class="m">−0.002t²</span>: el 2 baja y queda <span class="m">−0.002·2t = −0.004t</span>.</li>
+    </ol>
+    <p>¡Compara tu resultado del ejercicio siguiente con la tabla de arriba!</p></div>
+  <div class="ex" data-id="g4"></div>
+  <div class="ex" data-id="g5"></div>
+  <h2>Parte C · ¿Cuándo vender? (el dinero también tiene derivada)</h2>
+  <div class="analogy"><div class="em">💰</div><div>Cada día que Canelo pasa en el corral:<br>• <b>gana dinero</b>: los kilos que sube ese día × el precio por kilo = <span class="m">p·W′(t)</span> pesos/día;<br>• <b>gasta dinero</b>: su comida del día = <span class="m">c</span> pesos/día.<br>Mientras lo que gana sea <b>mayor</b> que lo que gasta, conviene esperar. El mejor día para vender es cuando se igualan: <span class="m">p·W′(t) = c</span>.</div></div>
+  <div class="formula">G(t) = p·[W(t) − 250] − c·t   ⟶   G′(t) = p·W′(t) − c = 0<small>G: ganancia acumulada ($) · p = $45 por kg en pie · c = $30 de alimento por día (valores ilustrativos)</small></div>
+  <div class="worked"><h3>Ejemplo resuelto con otros precios (p = $50/kg, c = $40/día)</h3>
+    <ol>
+      <li>Iguala: <span class="m">50·(1.2 − 0.004t) = 40</span>.</li>
+      <li>Divide entre 50: <span class="m">1.2 − 0.004t = 0.8</span>.</li>
+      <li>Despeja: <span class="m">0.004t = 0.4</span>, así que <span class="m">t = 100 días</span>.</li>
+      <li>Interpreta: después del día 100, Canelo «se come» más dinero del que produce en kilos.</li>
+    </ol></div>
+  <div class="ex" data-id="g6"></div>
+  <h2>Simulador del ranchero</h2>
+  <p>Cambia el precio del kilo y el costo de la comida. La línea verde es lo que Canelo <b>produce</b> en dinero cada día y la roja lo que <b>cuesta</b>. Donde se cruzan está el mejor día de venta, que coincide con la cima de la ganancia acumulada (dorada).</p>
+  <div class="plotbox">
+    <div class="ctrls">
+      <label>Precio por kilo en pie p: <b id="lblP">45</b> $/kg<input type="range" id="slP" min="30" max="70" step="1" value="45"></label>
+      <label>Costo de alimentación c: <b id="lblC">30</b> $/día<input type="range" id="slC" min="15" max="50" step="1" value="30"></label>
+    </div>
+    <canvas class="plot" id="cvSimCow"></canvas>
+    <canvas class="plot" id="cvGan" style="height:260px;margin-top:8px"></canvas>
+    <div class="readout" id="cowSimOut"></div>
+  </div>
+  <div class="ex" data-id="g7"></div>
+  <div class="ex" data-id="g8"></div>
+  <div class="ex" data-id="g9"></div>
+  <details><summary>Para profundizar en este caso</summary><ul class="refs">
+    <li>National Academies of Sciences, Engineering, and Medicine (2016). <i>Nutrient Requirements of Beef Cattle</i>, 8.ª ed. revisada. The National Academies Press. <span class="why">La referencia sobre requerimientos nutricionales y ganancia de peso del ganado de carne.</span></li>
+    <li>LibreTexts Español. <a href="https://espanol.libretexts.org/Bookshelves/Matematicas/Calculo_aplicado_(Calaway_Hoffman_y_Lippman)/02%3A_El_Derivado/2.10%3A_Optimizaci%C3%B3n_Aplicada" target="_blank" rel="noopener">Cálculo aplicado · 2.10 Optimización aplicada</a>. <span class="why">Más problemas de optimización con costos e ingresos.</span></li>
+  </ul></details>
+</section>
+
+<!-- ===================== 6. FORESTAL ===================== -->
+<section class="lesson" data-title="6. Caso 2: el turno forestal" data-min="8">
+  <div class="eyebrow">Caso de estudio 2 · Forestal <span class="timechip">≈ 8 min</span></div>
+  <h1>¿A qué edad cortar la plantación de pino?</h1>
+  <div class="hero pine">
+    <p style="margin-top:0">En la sierra de Zacualpan, Veracruz, hay plantaciones de <i>Pinus patula</i>, un pino que crece rápido. Un árbol no se corta como una lechuga: tarda décadas. Si se corta muy joven se desperdicia crecimiento, y si se espera demasiado el bosque crece cada vez más lento. Para saber cuándo cortar usamos el volumen de madera <span class="m">V(t)</span> y su <b>derivada</b>, el ICA. <span class="pill">datos ilustrativos con fines didácticos</span></p>
+    <p style="margin-bottom:0">Si ya hiciste la clase de Funciones y Modelado, aquí verás el mismo modelo, ahora con derivadas.</p>
+  </div>
+  <div class="grid2">
+    <div class="formula">V(t) = 900(1 − e<sup>−0.07t</sup>)³<small>Volumen de madera (m³/ha) · t: edad (años)</small></div>
+    <div class="formula">V′(t) = 189·e<sup>−0.07t</sup>(1 − e<sup>−0.07t</sup>)²<small>ICA: cuánto crece el bosque en ese instante (m³/ha/año). Se obtiene con la regla de la cadena, que verás más adelante en el curso.</small></div>
+  </div>
+  <h2>Mira crecer el bosque</h2>
+  <div class="plotbox">
+    <div class="stage"><div class="actor" id="treeActor" style="font-size:30px">🌱</div><div class="info" id="treeInfo"></div></div>
+    <div class="ctrls"><label>Edad del rodal: <b id="lblTreeT">1</b> años<input type="range" id="slTreeT" min="1" max="60" step="0.1" value="1"></label></div>
+    <canvas class="plot click" id="cvTree" style="height:320px"></canvas>
+    <div class="unit">Curva verde: ICA = V′(t) · Curva dorada: IMA = V(t)/t · Línea azul: la edad que elegiste.</div>
+  </div>
+  <h2>Parte A · El límite que se vuelve derivada</h2>
+  <p>Estimemos el ICA a los 20 años como lo hicimos con el maíz: con secantes cada vez más cortas. Mueve h.</p>
+  <div class="plotbox"><div class="ctrls"><label>h (años): <b id="lblHf">1</b><input type="range" id="slHf" min="0" max="3" step="1" value="0"></label></div><div class="readout" id="hfOut"></div></div>
+  <div class="ex" data-id="f1"></div>
+  <div class="ex" data-id="f2"></div>
+  <h2>Parte B · ¿Hasta dónde llega el bosque? (límites al infinito)</h2>
+  <div class="ex" data-id="f3"></div>
+  <div class="ex" data-id="f4"></div>
+  <h2>Parte C · El turno: cuando la rapidez de hoy iguala al promedio</h2>
+  <div class="analogy"><div class="em">📒</div><div><b>Piensa en tu promedio escolar.</b> Si tu próxima calificación es <i>mayor</i> que tu promedio, el promedio sube. Si es <i>menor</i>, baja. En el bosque, la «calificación de hoy» es el ICA (V′) y el promedio es el IMA (V/t). Mientras V′ &gt; V/t, el IMA sigue subiendo y conviene esperar. El IMA llega a su máximo justo cuando <b>V′(t) = V(t)/t</b>: ese es el <b>turno técnico</b>.</div></div>
+  <div class="ex" data-id="f5"></div>
+  <div class="ex" data-id="f6"></div>
+  <div class="ex" data-id="f7"></div>
+  <details><summary>Para profundizar en este caso</summary><ul class="refs">
+    <li>Santiago-García, W. et al. (2014). <a href="https://www.redalyc.org/pdf/634/63439007007.pdf" target="_blank" rel="noopener">Crecimiento maderable y biomasa aérea en plantaciones jóvenes de <i>Pinus patula</i> en Zacualpan, Veracruz</a>. <i>Revista Mexicana de Ciencias Forestales</i>, 5(23), 78–91.</li>
+    <li>Clutter, J. L. et al. (1983). <i>Timber Management: A Quantitative Approach</i>. Wiley. <span class="why">Conceptos de ICA, IMA y turno forestal.</span></li>
+  </ul></details>
+</section>
+
+<!-- ===================== 7. RETO FINAL ===================== -->
+<section class="lesson" data-title="7. Reto final" data-min="3">
+  <div class="eyebrow">Sección 7 <span class="timechip">≈ 3 min</span></div>
+  <h1>🏆 Reto final</h1>
+  <div class="grid3">
+    <article><h3>Límite</h3><p>«¿A dónde se dirige?». Puede existir aunque f(a) no exista. Al infinito, revela el «techo».</p></article>
+    <article><h3>Derivada</h3><p>Rapidez de cambio <b>instantánea</b> = pendiente de la tangente = límite de secantes.</p></article>
+    <article><h3>Optimizar</h3><p>Deriva, iguala a cero e interpreta: el mejor día, la mejor dosis, la mejor edad.</p></article>
+  </div>
+  <div class="ex" data-id="c1"></div>
+  <div class="ex" data-id="c2"></div>
+  <div class="ex" data-id="c3"></div>
+  <div class="ex" data-id="c4"></div>
+  <div class="ex" data-id="c5"></div>
+</section>
+
+<!-- ===================== 8. REFERENCIAS ===================== -->
+<section class="lesson" data-title="8. Referencias y videos" data-min="1">
+  <div class="eyebrow">Sección 8</div>
+  <h1>Referencias, videos y recursos</h1>
+  <h2>Libros y textos abiertos</h2>
+  <ul class="refs">
+    <li>Strang, G. y Herman, E. (OpenStax). <a href="https://openstax.org/books/c%C3%A1lculo-volumen-1/pages/2-2-el-limite-de-una-funcion" target="_blank" rel="noopener"><i>Cálculo volumen 1</i> · 2.2 El límite de una función</a>. Gratuito y en español. <span class="why">Tablas y gráficas para estimar límites; capítulo 3 de derivadas.</span></li>
+    <li>LibreTexts Español. <a href="https://espanol.libretexts.org/Bookshelves/Educacion_Basica/Calculo/04%3A_Diferenciaci%C3%B3n_-_Modelos_de_Pendiente_usando_Derivadas/4.01%3A_Tasas_de_Cambio_Promedio_e_Instant%C3%A1neas" target="_blank" rel="noopener">Tasas de cambio promedio e instantáneas</a>. <span class="why">Secante, tangente y velocidad instantánea, con ejemplos.</span></li>
+    <li>Stewart, J. <i>Cálculo de una variable: trascendentes tempranas</i>. Cengage Learning. Caps. 2 y 3.</li>
+    <li><a href="https://www.geogebra.org/graphing" target="_blank" rel="noopener">GeoGebra</a> y <a href="https://www.desmos.com/calculator?lang=es" target="_blank" rel="noopener">Desmos</a>, para graficar funciones y sus derivadas.</li>
+  </ul>
+  <h2>Videos de apoyo (YouTube, en español)</h2>
+  <ul class="refs" id="videoList"></ul>
+  <h2>Casos de estudio</h2>
+  <ul class="refs">
+    <li>National Academies of Sciences, Engineering, and Medicine (2016). <i>Nutrient Requirements of Beef Cattle</i>, 8.ª ed. revisada. The National Academies Press.</li>
+    <li>Santiago-García, W. et al. (2014). <a href="https://www.redalyc.org/pdf/634/63439007007.pdf" target="_blank" rel="noopener">Crecimiento maderable y biomasa aérea en plantaciones jóvenes de <i>Pinus patula</i> en Zacualpan, Veracruz</a>. <i>Rev. Mex. Cienc. For.</i>, 5(23), 78–91.</li>
+    <li>Clutter, J. L., Fortson, J. C., Pienaar, L. V., Brister, G. H. y Bailey, R. L. (1983). <i>Timber Management: A Quantitative Approach</i>. Wiley.</li>
+  </ul>
+  <div class="callout warn">Los datos de los casos (peso de Canelo, precios, costos y volumen del rodal) son <b>ilustrativos</b>: se eligieron para que los cálculos sean claros y tengan órdenes de magnitud razonables, pero no son mediciones de un rancho o una plantación concretos.</div>
+</section>
+
+<!-- ===================== 9. REPORTE ===================== -->
+<section class="lesson" data-title="9. Reporte PDF" data-min="1">
+  <div class="eyebrow">Sección 9</div>
+  <h1>Genera tu reporte para Eminus 4</h1>
+  <p class="lead">El PDF incluye portada con tus datos, todas tus respuestas con su resultado, los resultados de tus retos, tus gráficas (simulador del novillo, curvas del bosque y tu reto de la tangente) y tus respuestas abiertas.</p>
+  <div class="grid2">
+    <article><h3>Lista de verificación</h3><ul class="check" id="checklist"></ul></article>
+    <article><h3>Resumen</h3><div id="resumen"></div></article>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <button id="btnPDF">Descargar reporte PDF</button>
+    <button id="btnReset" class="danger">Borrar mi avance</button>
+    <span id="pdfMsg" class="unit"></span>
+  </div>
+  <div class="callout info"><b>Entrega en Eminus 4:</b> abre la actividad, en «Adjuntar evidencias» sube el archivo <span class="m">LimitesDerivadas_&lt;matrícula&gt;.pdf</span> y pulsa «Entregar actividad». Puedes generar el PDF aunque te falten actividades; las pendientes aparecerán como «sin responder».</div>
+</section>
+
+<div class="pager"><button id="btnPrev" class="secondary">← Anterior</button><button id="btnNext">Siguiente →</button></div>
+</main>
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+'use strict';
+/* ================= Utilidades y estado ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const KEY='limites_derivadas_v1';
+const DOCENTE='Dr. Gustavo Ortiz Hernández', EE='Matemáticas', TEMA='Límites, nociones y aplicación de derivadas';
+let S={nombre:'',matricula:'',res:{},lesson:0,visited:[0],secs:0,cow:{p:45,c:30,t:0},treeT:20};
+try{ const raw=localStorage.getItem(KEY); if(raw) S=Object.assign(S,JSON.parse(raw)); }catch(e){}
+let saveT=null; function save(){ clearTimeout(saveT); saveT=setTimeout(()=>{ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} },200); }
+function toast(t,ms=3500){ const el=$('#toast'); el.textContent=t; el.style.display='block'; clearTimeout(el._t); el._t=setTimeout(()=>el.style.display='none',ms); }
+const fmt=(x,d=2)=>(x===null||x===undefined||!isFinite(x))?'–':Number(x).toLocaleString('es-MX',{minimumFractionDigits:d,maximumFractionDigits:d});
+const parseNum=s=>{ if(s===null||s===undefined) return NaN; s=String(s).trim().replace(/\s/g,'').replace(',','.'); if(!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(s)) return NaN; return parseFloat(s); };
+setInterval(()=>{ if(!document.hidden){ S.secs+=15; save(); } },15000);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const mathify=s=>esc(s).replace(/\^\{([^}]+)\}/g,'<sup>$1</sup>').replace(/\^(\d+)/g,'<sup>$1</sup>').replace(/₀/g,'<sub>0</sub>');
+const words=s=>(s.trim().match(/\S+/g)||[]).length;
+
+/* ================= Modelos ================= */
+const h0=t=>0.3*t*t;
+const W=t=>250+1.2*t-0.002*t*t, dW=t=>1.2-0.004*t;
+const V=t=>900*Math.pow(1-Math.exp(-0.07*t),3), dV=t=>189*Math.exp(-0.07*t)*Math.pow(1-Math.exp(-0.07*t),2);
+const hLog=t=>250/(1+Math.exp(-0.08*(t-60)));
+const Ymz=N=>-0.01*N*N+0.6*N+3;
+const tVenta=(p,c)=>Math.max(0,Math.min(300,(1.2-c/p)/0.004));
+
+/* ================= Gráficas ================= */
+const THEMES={dark:{bg:'#0b1626',grid:'#1c2d44',axis:'#5b7290',text:'#b2c3d9',title:'#edf4ff'},light:{bg:'#ffffff',grid:'#e6ebf0',axis:'#8796a8',text:'#334155',title:'#0f172a'}};
+const COL={a:'#77e3bc',b:'#f1c17d',c:'#80beff',d:'#ff9a9a',g:'#8a9bb0',p:'#c4a7ff'};
+const COLL={a:'#0f9f74',b:'#b7791f',c:'#2563eb',d:'#dc2626',g:'#94a3b8',p:'#7c3aed'};
+function niceStep(range,n=6){ const raw=range/n,p=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/p; return (f<1.5?1:f<3?2:f<7?5:10)*p; }
+function plot(cv,o,light=false,Wd,Hh){
+  const th=THEMES[light?'light':'dark'], dpr=light?1:(window.devicePixelRatio||1);
+  const w=Wd||cv.clientWidth||800, h=Hh||cv.clientHeight||360; if(!w) return;
+  cv.width=w*dpr; cv.height=h*dpr; const c=cv.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0);
+  const mini=!!o.mini, fs=mini?11:(light?15:13);
+  c.fillStyle=th.bg; c.fillRect(0,0,w,h);
+  const L=mini?10:62, R=mini?8:18, T=mini?8:(o.title?34:16), B=mini?10:48, pw=w-L-R, ph=h-T-B;
+  const X=x=>L+(x-o.x0)/(o.x1-o.x0)*pw, Y=y=>T+ph-(y-o.y0)/(o.y1-o.y0)*ph;
+  c.font=`${fs}px Segoe UI, Arial`; c.textBaseline='middle';
+  const sx=o.xstep||niceStep(o.x1-o.x0), sy=o.ystep||niceStep(o.y1-o.y0,5);
+  c.strokeStyle=th.grid; c.lineWidth=1; c.fillStyle=th.text;
+  for(let x=Math.ceil(o.x0/sx)*sx;x<=o.x1+1e-9;x+=sx){ c.beginPath(); c.moveTo(X(x),T); c.lineTo(X(x),T+ph); c.stroke(); if(!mini){ c.textAlign='center'; c.fillText(o.xfmt?o.xfmt(x):+x.toFixed(6),X(x),T+ph+14);} }
+  for(let y=Math.ceil(o.y0/sy)*sy;y<=o.y1+1e-9;y+=sy){ c.beginPath(); c.moveTo(L,Y(y)); c.lineTo(L+pw,Y(y)); c.stroke(); if(!mini){ c.textAlign='right'; c.fillText(+y.toFixed(6),L-8,Y(y));} }
+  c.strokeStyle=th.axis; c.strokeRect(L,T,pw,ph);
+  if(o.axes0){ c.strokeStyle=th.axis; c.lineWidth=1.4; if(o.y0<0&&o.y1>0){c.beginPath();c.moveTo(L,Y(0));c.lineTo(L+pw,Y(0));c.stroke();} }
+  if(!mini){ c.fillStyle=th.text; c.textAlign='center'; c.fillText(o.xl||'',L+pw/2,h-12); c.save(); c.translate(15,T+ph/2); c.rotate(-Math.PI/2); c.fillText(o.yl||'',0,0); c.restore(); }
+  if(o.title){ c.fillStyle=th.title; c.font=`bold ${fs+1}px Segoe UI, Arial`; c.textAlign='left'; c.fillText(o.title,L,16); c.font=`${fs}px Segoe UI, Arial`; }
+  c.save(); c.beginPath(); c.rect(L,T,pw,ph); c.clip();
+  (o.series||[]).forEach(s=>{
+    c.strokeStyle=s.color; c.fillStyle=s.color; c.lineWidth=s.width||(mini?2.5:2.5); c.setLineDash(s.dash||[]);
+    if(s.fn){ c.beginPath(); let first=true; const n=400, a=s.from??o.x0, b=s.to??o.x1; for(let i=0;i<=n;i++){ const x=a+(b-a)*i/n, y=s.fn(x); if(!isFinite(y)){first=true;continue;} const py=Math.max(-1e4,Math.min(1e4,Y(y))); if(first){c.moveTo(X(x),py);first=false;} else c.lineTo(X(x),py);} c.stroke(); }
+    if(s.pts){ c.setLineDash([]); s.pts.forEach(([x,y])=>{ c.beginPath(); c.arc(X(x),Y(y),s.r||5,0,7); if(s.hollow){ c.fillStyle=th.bg; c.fill(); c.lineWidth=2.2; c.strokeStyle=s.color; c.stroke(); c.fillStyle=s.color; } else c.fill(); }); }
+    if(s.hline!==undefined){ c.beginPath(); c.moveTo(L,Y(s.hline)); c.lineTo(L+pw,Y(s.hline)); c.stroke(); }
+    if(s.vline!==undefined){ c.beginPath(); c.moveTo(X(s.vline),T); c.lineTo(X(s.vline),T+ph); c.stroke(); }
+    if(s.text){ c.setLineDash([]); c.font=`bold ${fs}px Segoe UI, Arial`; c.textAlign=s.align||'left'; c.fillText(s.text,X(s.at[0])+(s.dx||6),Y(s.at[1])+(s.dy||-10)); c.font=`${fs}px Segoe UI, Arial`; }
+    c.setLineDash([]);
+  });
+  c.restore();
+  const leg=(o.series||[]).filter(s=>s.label); if(leg.length&&!mini){ let ly=T+12; c.font=`${fs-1}px Segoe UI, Arial`; c.textAlign='left';
+    const lw=Math.max(...leg.map(s=>c.measureText(s.label).width))+40, lx=o.legendRight?L+pw-lw-6:L+10;
+    c.fillStyle=light?'rgba(255,255,255,.92)':'rgba(11,22,38,.88)'; c.fillRect(lx-6,T+2,lw+6,leg.length*20+8);
+    leg.forEach(s=>{ c.strokeStyle=s.color; c.fillStyle=s.color; c.lineWidth=2.5; c.setLineDash(s.dash||[]); if(s.pts){c.beginPath();c.arc(lx+12,ly,4.5,0,7);c.fill();} else {c.beginPath();c.moveTo(lx,ly);c.lineTo(lx+24,ly);c.stroke();} c.setLineDash([]); c.fillStyle=th.text; c.fillText(s.label,lx+32,ly); ly+=20; }); }
+  return {X,Y,L,T,pw,ph,inv:px=>o.x0+(px-L)/pw*(o.x1-o.x0)};
+}
+const K=light=>light?COLL:COL;
+
+/* ================= Banco de actividades ================= */
+// tipos: num | mc | vmc | text | click | game
+const EX={
+ l1:{sec:2,tipo:'num',enun:'Con la tabla de la animación (o con el truco algebraico), ¿a qué valor se acerca f(x) = (x² − 9)/(x − 3) cuando x → 3?',unit:'',ans:6,tol:0.02,
+   hint:'Mira los valores de f(x) cuando x = 2.999 y x = 3.001.',exp:'Por ambos lados f(x) se acerca a 6. Algebraicamente, (x − 3)(x + 3)/(x − 3) = x + 3, que vale 3 + 3 = 6.',
+   guia:'<ol><li>Pulsa ▶ en la animación y observa la tabla.</li><li>Fíjate en los valores de f(x) cuando x está muy cerca de 3, por ejemplo 2.999 o 3.001.</li><li>¿A qué número entero se parecen cada vez más?</li><li>Compruébalo con el truco: simplifica a x + 3 y sustituye x = 3.</li></ol>'},
+ l2:{sec:2,tipo:'vmc',enun:'¿En cuál gráfica se cumple que lim x→2 f(x) = 3? (Fíjate bien: el punto relleno es el valor f(2) y el hueco es a donde se acerca la curva.)',ans:1,
+   opts:[{desc:'Recta que pasa por (2, 1)',p:L=>({x0:0,x1:4,y0:0,y1:6,mini:true,series:[{fn:x=>x-1,color:K(L).c},{pts:[[2,1]],color:K(L).c}]})},
+         {desc:'Curva con hueco en (2, 3) y punto relleno en (2, 1)',p:L=>({x0:0,x1:4,y0:0,y1:6,mini:true,series:[{fn:x=>0.5*x*x+1,color:K(L).c},{pts:[[2,3]],color:K(L).c,hollow:true,r:6},{pts:[[2,1]],color:K(L).c}]})},
+         {desc:'Salto: tiende a 1 por la izquierda y a 3 por la derecha',p:L=>({x0:0,x1:4,y0:0,y1:6,mini:true,series:[{fn:x=>1,to:2,color:K(L).c},{fn:x=>3+0.5*(x-2),from:2,color:K(L).c},{pts:[[2,1]],color:K(L).c,hollow:true,r:6},{pts:[[2,3]],color:K(L).c}]})},
+         {desc:'Curva que pasa por (2, 5)',p:L=>({x0:0,x1:4,y0:0,y1:6,mini:true,series:[{fn:x=>x*x+1,color:K(L).c},{pts:[[2,5]],color:K(L).c}]})}],
+   hint:'El límite se lee en la altura a la que se acerca la curva, no en el punto relleno.',
+   exp:'En la gráfica B la curva se acerca a la altura 3 por ambos lados (el hueco), aunque f(2) = 1. El límite no depende del valor en el punto. En C los lados no coinciden y el límite no existe.',
+   guia:'<ol><li>Pon el dedo sobre la curva a la izquierda de x = 2 y deslízalo hacia x = 2: ¿a qué altura llegas?</li><li>Haz lo mismo por la derecha.</li><li>Si ambos lados llegan a 3, esa es la gráfica, aunque el punto relleno esté en otra altura.</li></ol>'},
+ l3:{sec:2,tipo:'game',game:'lightning',enun:'🎮 Reto «Límite relámpago»: 6 gráficas, 6 límites. Mira cada gráfica y elige a qué valor se acerca la función. ¡Intenta hacerlo rápido! Se cuenta como logrado con 4 aciertos o más, y puedes repetirlo.',
+   guia:'<ul><li>Sigue la curva con la vista hasta el punto indicado.</li><li>Un hueco ○ no importa para el límite; lo que importa es a dónde se acerca la curva.</li><li>Si por la izquierda y por la derecha llegas a alturas distintas, «No existe».</li><li>Para x → ∞, mira hacia dónde se aplana la curva a la derecha.</li></ul>'},
+ l4:{sec:2,tipo:'num',enun:'Con W(t) = 600 − 350·e^{−0.004t}, ¿cuál es el límite del peso de la vaca cuando t → ∞ (su peso adulto)?',unit:'kg',ans:600,tol:0.5,
+   hint:'¿Qué le pasa a e^{−0.004t} cuando t es enorme?',exp:'e^{−0.004t} → 0, así que W → 600 − 350·0 = 600 kg. La vaca se acerca a 600 kg sin rebasarlos: es su asíntota.',
+   guia:'<ol><li>Prueba con t = 10 000 en la calculadora: e<sup>−40</sup> sale casi 0.</li><li>Sustituye ese «casi 0» en la fórmula: 600 − 350 × 0.</li></ol>'},
+ l5:{sec:2,tipo:'mc',enun:'¿Qué afirmación describe mejor qué es un límite?',
+   opts:['Es el valor que la función tiene exactamente en ese punto','Es el valor al que se acerca f(x) cuando x se acerca a un número, aunque en ese punto la función no exista o valga otra cosa','Es el valor más grande que alcanza la función','Es lo mismo que la derivada'],ans:1,
+   hint:'Recuerda el ejemplo de 0/0 y la gráfica B del ejercicio anterior.',exp:'El límite describe la tendencia («a dónde se dirige»), no el valor en el punto.',
+   guia:'<p>Piensa en la vaca que se acerca al bebedero y en f(x) = (x² − 9)/(x − 3), que no existe en x = 3 pero tiende a 6.</p>'},
+ d1:{sec:3,tipo:'num',enun:'Una planta de maíz medía 40 cm el día 30 y 110 cm el día 40. ¿Cuál fue su tasa de crecimiento promedio?',unit:'cm/día',ans:7,tol:0.02,
+   hint:'(altura final − altura inicial) ÷ (día final − día inicial).',exp:'(110 − 40)/(40 − 30) = 70/10 = 7 cm/día: en promedio, creció 7 cm cada día.',
+   guia:'<ol><li>Cambio en altura: 110 − 40.</li><li>Cambio en tiempo: 40 − 30.</li><li>Divide el primero entre el segundo. Revisa el ejemplo del frijol.</li></ol>'},
+ d2:{sec:3,tipo:'num',enun:'Con la animación de secantes: ¿a qué valor se acerca la pendiente cuando Δt → 0? Esa es la rapidez de crecimiento h′(10) del maíz el día 10.',unit:'cm/día',ans:6,tol:0.02,
+   hint:'Mira la última fila de la tabla, cuando Δt ya es muy pequeño.',exp:'La pendiente de la secante es 0.3(20 + Δt) = 6 + 0.3Δt, que tiende a 6 cm/día. Con la regla: h′(t) = 0.6t, y h′(10) = 6.',
+   guia:'<ol><li>Pulsa ▶ «Encoger Δt» y observa cómo la recta secante gira hasta tocar la curva en un solo punto.</li><li>Lee en la tabla las pendientes: 8.4, 7.2, 6.6…</li><li>¿A qué número se acercan?</li></ol>'},
+ d3:{sec:3,tipo:'game',game:'tangent',enun:'🎮 Reto «Atrapa la tangente»: gira la recta con el deslizador hasta que toque la curva en el punto rojo sin cruzarla (que sea tangente). Son 3 rondas: maíz, novillo y bosque. Se acepta si tu pendiente queda a menos de 8 % de la verdadera.',
+   guia:'<ul><li>La tangente «roza» la curva: cerca del punto no queda ni arriba ni abajo de ella.</li><li>Si la recta corta la curva a la derecha del punto, baja la pendiente; si la corta a la izquierda, súbela.</li><li>Usa la flechas del teclado sobre el deslizador para hacer ajustes finos.</li></ul>'},
+ d4:{sec:3,tipo:'click',enun:'La altura de una planta de maíz durante el ciclo sigue esta curva en «S». Haz clic en la gráfica en el día en que la planta crece MÁS RÁPIDO (donde la pendiente es mayor) y pulsa Comprobar.',
+   plot:L=>({x0:0,x1:120,y0:0,y1:270,xl:'días después de la siembra',yl:'altura (cm)',series:[{fn:hLog,color:K(L).a,width:3}]}),ans:60,tol:7,unit:'días',
+   hint:'Busca el tramo más empinado de la «S».',exp:'La pendiente es máxima a la mitad de la S (el punto de inflexión), alrededor del día 60, cuando la planta mide la mitad de su altura final (125 cm).',
+   guia:'<ol><li>Imagina pequeñas tangentes a lo largo de la curva: al inicio son casi planas, luego empinadas y al final otra vez planas.</li><li>Haz clic donde la curva está más «parada».</li><li>Tu clic queda marcado con una línea; puedes cambiarlo antes de comprobar.</li></ol>'},
+ d5:{sec:3,tipo:'vmc',enun:'En cada gráfica hay un tramo resaltado en rojo. ¿En cuál de ellas la derivada es NEGATIVA en ese tramo? (Pista: humedad del suelo después de una lluvia.)',ans:2,
+   opts:[{desc:'Altura de planta subiendo',p:L=>({x0:0,x1:10,y0:0,y1:10,mini:true,series:[{fn:x=>1+0.08*x*x,color:K(L).g},{fn:x=>1+0.08*x*x,from:4,to:7,color:K(L).d,width:5}]})},
+         {desc:'Tramo plano (cima)',p:L=>({x0:0,x1:10,y0:0,y1:10,mini:true,series:[{fn:x=>8-0.3*(x-5)**2,color:K(L).g},{fn:x=>8-0.3*(x-5)**2,from:4.4,to:5.6,color:K(L).d,width:5}]})},
+         {desc:'Humedad del suelo bajando',p:L=>({x0:0,x1:10,y0:0,y1:10,mini:true,series:[{fn:x=>2+7*Math.exp(-0.3*x),color:K(L).g},{fn:x=>2+7*Math.exp(-0.3*x),from:1,to:4,color:K(L).d,width:5}]})},
+         {desc:'Peso subiendo cada vez más lento',p:L=>({x0:0,x1:10,y0:0,y1:10,mini:true,series:[{fn:x=>9-7*Math.exp(-0.35*x),color:K(L).g},{fn:x=>9-7*Math.exp(-0.35*x),from:5,to:8,color:K(L).d,width:5}]})}],
+   hint:'Derivada negativa = la curva va de bajada al avanzar hacia la derecha.',exp:'La humedad del suelo disminuye con los días sin lluvia: su derivada es negativa. Las otras suben (f′ > 0) o están planas (f′ ≈ 0).',
+   guia:'<ol><li>Recorre cada tramo rojo de izquierda a derecha.</li><li>Si va hacia arriba, f′ &gt; 0; si va hacia abajo, f′ &lt; 0; si es plano, f′ ≈ 0.</li></ol>'},
+ k1:{sec:4,tipo:'game',game:'memo',enun:'🎮 Reto «Memorama de derivadas»: voltea dos tarjetas y encuentra cada función con su derivada. ¡Contra reloj! Puedes repetirlo.',
+   guia:'<ul><li>Usa la tabla de recetas de arriba.</li><li>Truco: el exponente baja a multiplicar y luego se le resta 1.</li><li>Los números solos (constantes) tienen derivada 0.</li></ul>'},
+ k2:{sec:4,tipo:'mc',enun:'¿Cuál es la derivada de W(t) = 250 + 1.2t − 0.002t² (el peso del novillo)?',
+   opts:['W′(t) = 1.2 − 0.002t','W′(t) = 1.2 − 0.004t','W′(t) = 250 + 1.2 − 0.004t','W′(t) = 1.2t − 0.004'],ans:1,
+   hint:'Deriva término por término: la constante da 0, la recta da su pendiente y la potencia baja el 2.',exp:'(250)′ = 0, (1.2t)′ = 1.2 y (−0.002t²)′ = −0.004t. Total: W′(t) = 1.2 − 0.004t kg/día.',
+   guia:'<ol><li>250 → 0.</li><li>1.2t → 1.2.</li><li>−0.002t² → el 2 baja: −0.002 × 2 = −0.004, y queda t¹.</li><li>Suma los resultados.</li></ol>'},
+ k3:{sec:4,tipo:'num',enun:'Si f(x) = 5x³, ¿cuánto vale f′(2)?',unit:'',ans:60,tol:0.01,
+   hint:'Primero deriva (f′(x) = 15x²) y luego sustituye x = 2.',exp:'f′(x) = 5·3x² = 15x², y f′(2) = 15·4 = 60.',
+   guia:'<ol><li>Deriva: el 3 baja y multiplica a 5, y el exponente queda en 2.</li><li>Sustituye x = 2: 2² = 4.</li><li>Multiplica.</li></ol>'},
+ o1:{sec:5,tipo:'vmc',enun:'La curva de rendimiento de maíz Y(N) = −0.01N² + 0.6N + 3 sube, llega a una cima en N = 30 y luego baja. ¿Cuál gráfica es su derivada Y′(N)?',ans:0,
+   top:L=>({x0:0,x1:60,y0:0,y1:14,xl:'N (decenas de kg N/ha)',yl:'Y (t/ha)',series:[{fn:Ymz,color:K(L).a,width:3}]}),
+   opts:[{desc:'Recta que baja y cruza el cero en N = 30',p:L=>({x0:0,x1:60,y0:-0.8,y1:0.8,mini:true,axes0:true,series:[{fn:N=>0.6-0.02*N,color:K(L).c}]})},
+         {desc:'Recta que sube y cruza el cero en N = 30',p:L=>({x0:0,x1:60,y0:-0.8,y1:0.8,mini:true,axes0:true,series:[{fn:N=>-0.6+0.02*N,color:K(L).c}]})},
+         {desc:'La misma parábola',p:L=>({x0:0,x1:60,y0:0,y1:14,mini:true,series:[{fn:Ymz,color:K(L).c}]})},
+         {desc:'Recta horizontal positiva',p:L=>({x0:0,x1:60,y0:-0.8,y1:0.8,mini:true,axes0:true,series:[{fn:N=>0.4,color:K(L).c}]})}],
+   hint:'Antes de N = 30 la curva sube (Y′ > 0), en 30 está plana (Y′ = 0) y después baja (Y′ < 0).',exp:'Y′(N) = 0.6 − 0.02N: es positiva antes de 30, vale 0 en 30 y es negativa después. Es una recta que baja.',
+   guia:'<ol><li>Divide la parábola en tres zonas: subida, cima y bajada.</li><li>Traduce: subida → derivada positiva (arriba del eje); cima → derivada 0 (cruza el eje); bajada → derivada negativa (abajo del eje).</li><li>Busca la gráfica que cumpla las tres cosas en ese orden. La línea gruesa horizontal de cada miniatura es el eje y = 0.</li></ol>'},
+ o2:{sec:5,tipo:'num',enun:'Calcula la dosis óptima: deriva Y(N) = −0.01N² + 0.6N + 3, iguala a cero y despeja N.',unit:'decenas de kg N/ha',ans:30,tol:0.05,
+   hint:'Y′(N) = −0.02N + 0.6 = 0.',exp:'−0.02N + 0.6 = 0, así que N = 0.6/0.02 = 30, es decir, 300 kg N/ha. Ahí el rendimiento es máximo: Y(30) = −9 + 18 + 3 = 12 t/ha.',
+   guia:'<ol><li>Deriva cada término: −0.01N² → −0.02N; 0.6N → 0.6; 3 → 0.</li><li>Iguala: −0.02N + 0.6 = 0.</li><li>Pasa el 0.6 al otro lado y divide entre 0.02. Revisa el ejemplo del sorgo.</li></ol>'},
+ o3:{sec:5,tipo:'click',enun:'Comprueba tu resultado de forma visual: haz clic en la curva de rendimiento justo donde la tangente queda horizontal (derivada = 0).',
+   plot:L=>({x0:0,x1:60,y0:0,y1:14,xl:'N (decenas de kg N/ha)',yl:'Y (t/ha)',series:[{fn:Ymz,color:K(L).a,width:3}]}),ans:30,tol:2.5,unit:'decenas de kg N/ha',
+   hint:'Busca la cima de la parábola.',exp:'La tangente horizontal está en la cima, N = 30. Ahí la derivada vale 0.',
+   guia:'<p>Imagina una regla apoyada sobre la curva: ¿dónde queda completamente horizontal? Haz clic en ese punto.</p>'},
+ g1:{sec:6,tipo:'num',enun:'¿Cuánto pesa Canelo a los 60 días? W(60) = 250 + 1.2(60) − 0.002(60)²',unit:'kg',ans:314.8,tol:0.15,
+   hint:'60² = 3600.',exp:'W(60) = 250 + 72 − 7.2 = 314.8 kg.',guia:'<ol><li>1.2 × 60 = 72.</li><li>60² = 3600 y 0.002 × 3600 = 7.2.</li><li>250 + 72 − 7.2.</li></ol><p>Compruébalo con el deslizador de «Mira crecer a Canelo».</p>'},
+ g2:{sec:6,tipo:'num',enun:'¿Cuál fue la ganancia de peso PROMEDIO de Canelo entre el día 0 y el día 60?',unit:'kg/día',ans:1.08,tol:0.01,
+   hint:'[W(60) − W(0)] / (60 − 0).',exp:'(314.8 − 250)/60 = 64.8/60 = 1.08 kg/día.',guia:'<ol><li>W(0) = 250 kg (el peso de entrada).</li><li>Kilos ganados: W(60) − W(0).</li><li>Divide entre 60 días.</li></ol>'},
+ g3:{sec:6,tipo:'num',enun:'Mira la tabla de arriba: cuando h se hace muy pequeño, ¿a qué valor se acerca la ganancia promedio entre el día 60 y el día 60 + h?',unit:'kg/día',ans:0.96,tol:0.005,
+   hint:'Mira la fila con h = 0.01.',exp:'Las ganancias promedio (0.94, 0.958, 0.9598, 0.95998…) tienden a 0.96 kg/día: esa es W′(60), la ganancia diaria de peso exacta el día 60.',
+   guia:'<ol><li>Lee la columna «ganancia promedio» de arriba hacia abajo.</li><li>Cada fila usa un h más pequeño: el número se va «estacionando».</li><li>¿En qué número con dos decimales se estaciona?</li></ol>'},
+ g4:{sec:6,tipo:'num',enun:'Usando W′(t) = 1.2 − 0.004t, ¿cuál es la ganancia diaria de peso el día 150?',unit:'kg/día',ans:0.6,tol:0.005,
+   hint:'Sustituye t = 150.',exp:'W′(150) = 1.2 − 0.6 = 0.6 kg/día: a los 150 días Canelo sube la mitad de lo que subía al entrar (1.2 kg/día).',
+   guia:'<ol><li>0.004 × 150 = 0.6.</li><li>1.2 − 0.6.</li></ol><p>Compara con la gráfica: la línea de la GDP va bajando.</p>'},
+ g5:{sec:6,tipo:'mc',enun:'¿Por qué la ganancia diaria de peso de Canelo disminuye con el tiempo?',
+   opts:['Porque el modelo está mal','Porque conforme el animal madura, una parte mayor de lo que come se va en mantener su cuerpo y en grasa, y cada día sube menos kilos','Porque la báscula se descompone','Porque la derivada de cualquier función siempre baja'],ans:1,
+   hint:'Piensa en cómo creces tú: de niño crecías muchos centímetros por año y ahora casi nada.',exp:'Los animales (y las personas) crecen rápido de jóvenes y se frenan al madurar. Por eso W′(t) baja con t.',
+   guia:'<p>Recuerda el glosario: la GDP es alta al inicio y baja conforme el animal madura.</p>'},
+ g6:{sec:6,tipo:'num',enun:'Con p = $45/kg y c = $30/día, ¿en qué día conviene vender a Canelo? Resuelve 45·(1.2 − 0.004t) = 30 (un decimal).',unit:'días',ans:133.33,tol:0.5,
+   hint:'Divide entre 45: 1.2 − 0.004t = 0.6667.',exp:'1.2 − 0.004t = 30/45 = 0.6667, luego 0.004t = 0.5333 y t = 133.3 días. Ese día Canelo pesa W(133.3) ≈ 374 kg.',
+   guia:'<ol><li>Divide ambos lados entre 45: 1.2 − 0.004t = 0.6667.</li><li>Resta: 0.004t = 1.2 − 0.6667.</li><li>Divide entre 0.004.</li><li>Sigue el ejemplo resuelto con p = 50 y c = 40.</li></ol>'},
+ g7:{sec:6,tipo:'num',enun:'¡Mal año! El alimento sube a c = $36/día y el precio sigue en p = $45/kg. Usa el simulador (o la fórmula): ¿cuál es ahora el mejor día de venta?',unit:'días',ans:100,tol:1,
+   hint:'Mueve c a 36 y lee «Mejor día de venta».',exp:'45(1.2 − 0.004t) = 36 → 1.2 − 0.004t = 0.8 → t = 100 días: hay que vender 33 días antes.',
+   guia:'<ol><li>En el simulador pon p = 45 y c = 36.</li><li>Lee dónde se cruzan la línea verde y la roja.</li><li>O resuelve 45(1.2 − 0.004t) = 36.</li></ol>'},
+ g8:{sec:6,tipo:'click',enun:'En la gráfica de ganancia acumulada G(t) (p = $45, c = $30), haz clic en el día en que la ganancia es MÁXIMA.',
+   plot:L=>({x0:0,x1:250,y0:-500,y1:2000,xl:'días en el corral',yl:'ganancia acumulada ($)',axes0:true,series:[{fn:t=>45*(W(t)-250)-30*t,color:K(L).b,width:3}]}),ans:133.3,tol:10,unit:'días',
+   hint:'La cima de la curva.',exp:'La cima de G(t) está en t ≈ 133 días, el mismo día en que G′(t) = 45·W′(t) − 30 = 0. ¡La derivada encuentra la cima sin dibujar!',
+   guia:'<p>Busca el punto más alto de la curva dorada y haz clic ahí. Debe coincidir con tu respuesta del ejercicio del mejor día de venta.</p>'},
+ g9:{sec:6,tipo:'text',min:40,enun:'Recomendación para Doña Rosa (mínimo 40 palabras): ¿qué día le recomiendas vender a Canelo y por qué? ¿Qué pasaría si sube el alimento o el precio del kilo? Menciona una limitación del modelo.',
+   guia:'<ol><li><b>Respuesta:</b> el día de venta y el peso aproximado.</li><li><b>Por qué:</b> explica con tus palabras que p·W′(t) = c.</li><li><b>Escenarios:</b> qué pasa si sube c y qué pasa si sube p (usa el simulador).</li><li><b>Limitación:</b> un solo animal, precios que cambian, salud, clima, modelo válido solo hasta 250 días.</li></ol>'},
+ f1:{sec:7,tipo:'num',enun:'Con el deslizador de h, ¿a qué valor se acerca [V(20 + h) − V(20)]/h cuando h → 0? (dos decimales)',unit:'m³/ha/año',ans:26.45,tol:0.06,
+   hint:'Lee el valor con h = 0.001.',exp:'Los cocientes 26.12, 26.42, 26.452, 26.455… tienden a V′(20) ≈ 26.45 m³/ha/año. Con la fórmula: 189·e^{−1.4}(1 − e^{−1.4})² = 26.45.',
+   guia:'<ol><li>Mueve el deslizador de h hasta el final (h = 0.001).</li><li>Lee el cociente.</li><li>Opcional: compruébalo con la fórmula de V′(t) y t = 20.</li></ol>'},
+ f2:{sec:7,tipo:'mc',enun:'A los 20 años, ICA = V′(20) ≈ 26.5 y IMA = V(20)/20 ≈ 19.2 m³/ha/año. ¿Qué conviene?',
+   opts:['Cortar ya, porque el bosque es grande','Esperar, porque el bosque crece hoy más rápido que su promedio y el IMA todavía va a subir','Da igual','Cortar, porque la derivada es positiva'],ans:1,
+   hint:'Recuerda la analogía del promedio escolar.',exp:'Como ICA > IMA, cada año extra sube el promedio. Conviene esperar.',guia:'<p>Si tu calificación de hoy (26.5) es mayor que tu promedio (19.2), ¿tu promedio sube o baja?</p>'},
+ f3:{sec:7,tipo:'num',enun:'¿Cuál es el límite del volumen cuando t → ∞? lim V(t) = lim 900(1 − e^{−0.07t})³',unit:'m³/ha',ans:900,tol:0.5,
+   hint:'e^{−0.07t} → 0.',exp:'(1 − 0)³ = 1, así que V → 900 m³/ha: el máximo de madera que puede tener ese sitio (asíntota).',
+   guia:'<ol><li>e<sup>−0.07t</sup> se hace casi 0 cuando t es enorme.</li><li>1 − 0 = 1 y 1³ = 1.</li><li>900 × 1.</li></ol>'},
+ f4:{sec:7,tipo:'mc',enun:'¿Qué significa que lim t→∞ V′(t) = 0?',
+   opts:['Que el bosque se seca','Que con los años el bosque casi deja de crecer: su rapidez de crecimiento tiende a cero porque ya está cerca de su máximo','Que el volumen es cero','Que hay que plantar otra vez de inmediato'],ans:1,
+   hint:'V′ es la rapidez de crecimiento.',exp:'Al acercarse a la asíntota de 900 m³/ha, el volumen casi no cambia, así que su derivada tiende a 0.',guia:'<p>Mira en la gráfica la curva verde (ICA) muy a la derecha: ¿hacia dónde va?</p>'},
+ f5:{sec:7,tipo:'num',enun:'Mueve la edad en el simulador del bosque hasta que ICA = IMA (las curvas se cruzan). ¿Cuál es el turno técnico? (un decimal)',unit:'años',ans:27.2,tol:0.6,
+   hint:'Busca la edad donde el ICA (V′) y el IMA (V/t) casi tienen el mismo valor.',exp:'V′(t) = V(t)/t en t ≈ 27.2 años, con IMA ≈ 20.4 m³/ha/año. Es el máximo del IMA.',
+   guia:'<ol><li>Mueve el deslizador «Edad del rodal» entre 25 y 30 años.</li><li>Lee el ICA y el IMA en el recuadro.</li><li>Busca la edad donde la diferencia es más cercana a 0.</li></ol>'},
+ f6:{sec:7,tipo:'click',enun:'En la gráfica del bosque (curva verde = ICA), haz clic en la edad en que el bosque crece MÁS RÁPIDO (ICA máximo).',ans:15.7,tol:2,unit:'años',useCanvas:'cvTree',
+   hint:'La cima de la curva verde.',exp:'El ICA máximo ocurre cerca de los 16 años (≈ 31 m³/ha/año). Ahí la curva V(t) tiene su punto de inflexión: la parte más empinada de la «S».',
+   guia:'<p>Haz clic directamente sobre la gráfica de arriba, en la parte más alta de la curva verde. Ojo: el máximo del ICA (≈ 16 años) no es el turno (≈ 27 años).</p>'},
+ f7:{sec:7,tipo:'text',min:30,enun:'Explícale al dueño de la plantación (mínimo 30 palabras) por qué no conviene cortar a los 16 años, cuando el bosque crece más rápido, sino cerca de los 27.',
+   guia:'<ol><li>A los 16 años el ICA es máximo, pero el IMA (promedio) todavía está subiendo.</li><li>Mientras ICA &gt; IMA, cada año extra mejora el promedio.</li><li>A los 27 años se igualan: ahí el promedio de madera por año es el más alto posible.</li></ol>'},
+ c1:{sec:8,tipo:'vmc',enun:'La altura de un árbol con la edad tiene forma de «S». ¿Cuál gráfica muestra su rapidez de crecimiento (la derivada)?',ans:3,
+   top:L=>({x0:0,x1:60,y0:0,y1:36,xl:'edad (años)',yl:'altura (m)',series:[{fn:t=>34*Math.pow(1-Math.exp(-0.08*t),2.2),color:K(L).a,width:3}]}),
+   opts:[{desc:'Otra curva en S',p:L=>({x0:0,x1:60,y0:0,y1:36,mini:true,series:[{fn:t=>34*Math.pow(1-Math.exp(-0.08*t),2.2),color:K(L).c}]})},
+         {desc:'Recta que sube',p:L=>({x0:0,x1:60,y0:0,y1:2,mini:true,series:[{fn:t=>0.03*t,color:K(L).c}]})},
+         {desc:'Curva en U',p:L=>({x0:0,x1:60,y0:0,y1:2,mini:true,series:[{fn:t=>0.0012*(t-30)**2+0.2,color:K(L).c}]})},
+         {desc:'Joroba: sube, llega a un máximo y baja hacia 0',p:L=>({x0:0,x1:60,y0:0,y1:2,mini:true,series:[{fn:t=>34*2.2*0.08*Math.exp(-0.08*t)*Math.pow(1-Math.exp(-0.08*t),1.2),color:K(L).c}]})}],
+   hint:'Al principio la S es casi plana, a la mitad es muy empinada y al final otra vez plana.',exp:'La rapidez empieza en ~0, sube hasta un máximo (la parte empinada de la S) y vuelve a tender a 0: forma de joroba. Es lo mismo que el ICA del bosque.',
+   guia:'<ol><li>Divide la S en tres partes y piensa en la pendiente de cada una: pequeña, grande, pequeña.</li><li>Busca la gráfica que vaya de bajo a alto y otra vez a bajo.</li></ol>'},
+ c2:{sec:8,tipo:'vmc',enun:'¿Cuál gráfica representa la ganancia diaria de peso de Canelo, W′(t) = 1.2 − 0.004t, de 0 a 250 días?',ans:2,
+   opts:[{desc:'Parábola que abre hacia abajo',p:L=>({x0:0,x1:250,y0:0,y1:1.4,mini:true,series:[{fn:t=>1.2-0.00003*(t-125)**2,color:K(L).c}]})},
+         {desc:'Recta que sube desde 0.2',p:L=>({x0:0,x1:250,y0:0,y1:1.4,mini:true,series:[{fn:t=>0.2+0.004*t,color:K(L).c}]})},
+         {desc:'Recta que baja de 1.2 a 0.2',p:L=>({x0:0,x1:250,y0:0,y1:1.4,mini:true,series:[{fn:dW,color:K(L).c}]})},
+         {desc:'Recta horizontal en 1.2',p:L=>({x0:0,x1:250,y0:0,y1:1.4,mini:true,series:[{fn:t=>1.2,color:K(L).c}]})}],
+   hint:'Es una recta: ¿cuánto vale en t = 0 y en t = 250?',exp:'W′(0) = 1.2 y W′(250) = 1.2 − 1 = 0.2: una recta que baja.',guia:'<ol><li>Evalúa en t = 0.</li><li>Evalúa en t = 250.</li><li>Busca la recta que une esos dos valores.</li></ol>'},
+ c3:{sec:8,tipo:'mc',enun:'¿Cuáles son las unidades de V′(t) si V está en m³/ha y t en años?',opts:['m³/ha','años','m³/ha/año (metros cúbicos por hectárea por año)','m³'],ans:2,
+   hint:'La derivada es «cambio de V» dividido entre «cambio de t».',exp:'Las unidades de una derivada son (unidades de y)/(unidades de x): m³/ha por año.',guia:'<p>Recuerda: la ganancia de peso es kg/día porque el peso está en kg y el tiempo en días.</p>'},
+ c4:{sec:8,tipo:'mc',enun:'En el punto donde una función tiene un máximo, su derivada…',opts:['es muy grande','vale 0 y pasa de positiva a negativa','es negativa siempre','no existe nunca'],ans:1,
+   hint:'Recuerda la cima del cerro.',exp:'En la cima la tangente es horizontal (f′ = 0): antes sube (f′ > 0) y después baja (f′ < 0).',guia:'<p>Vuelve a la analogía del cerro de la sección 4.</p>'},
+ c5:{sec:8,tipo:'text',min:30,enun:'Reflexión (mínimo 30 palabras): ¿qué aprendiste hoy? Da un ejemplo propio del campo (riego, plagas, ganado, suelo, clima, bosque…) donde te sirva saber qué tan rápido cambia algo.',
+   guia:'<ol><li>¿Qué cambia? (por ejemplo, la humedad del suelo).</li><li>¿Respecto a qué? (los días).</li><li>¿Qué significaría una derivada grande, cero o negativa?</li><li>¿Qué decisión tomarías con esa información?</li></ol>'}
+};
+const SECS={2:'Límites',3:'La derivada',4:'Reglas para derivar',5:'Máximos y mínimos',6:'Caso 1: el novillo en engorda',7:'Caso 2: el turno forestal',8:'Reto final'};
+const isDone=id=>{ const r=S.res[id], e=EX[id]; if(!r) return false; if(e.tipo==='text') return !!r.val; if(e.tipo==='game') return !!r.finished; return !!(r.ok||r.closed); };
+
+/* ================= Render de actividades ================= */
+let exNum=0;
+function renderEx(box){
+  const id=box.dataset.id, e=EX[id]; exNum++; e.n=exNum;
+  if(e.tipo==='game') box.classList.add('game');
+  const kind={vmc:' · opción visual',click:' · haz clic en la gráfica',text:' · respuesta abierta',game:' · reto'}[e.tipo]||'';
+  let h=`<div class="tag">${e.tipo==='game'?'Reto':'Actividad'} ${exNum}${kind}</div><div class="enun">${mathify(e.enun)}</div>`;
+  if(e.guia) h+=`<details class="guia"><summary>💡 Cómo resolverlo paso a paso</summary>${e.guia}</details>`;
+  if(e.top) h+=`<div class="plotbox"><canvas class="plot" id="top_${id}" style="height:260px"></canvas></div>`;
+  if(e.tipo==='num') h+=`<div class="row"><input type="text" inputmode="decimal" id="in_${id}" aria-label="Respuesta"> <span class="unit">${esc(e.unit||'')}</span><button data-check="${id}">Comprobar</button></div>`;
+  if(e.tipo==='mc') h+=`<div class="opts">${e.opts.map((o,i)=>`<label><input type="radio" name="in_${id}" value="${i}">${mathify(o)}</label>`).join('')}</div><button data-check="${id}">Comprobar</button>`;
+  if(e.tipo==='vmc') h+=`<div class="vopts">${e.opts.map((o,i)=>`<label><input type="radio" name="in_${id}" value="${i}"><canvas id="vo_${id}_${i}"></canvas><span class="lt">${'ABCD'[i]}</span></label>`).join('')}</div><button data-check="${id}">Comprobar</button>`;
+  if(e.tipo==='click'){ if(!e.useCanvas) h+=`<div class="plotbox"><canvas class="plot click" id="ck_${id}" style="height:300px"></canvas></div>`; h+=`<div class="row"><span class="unit" id="ckv_${id}">${e.useCanvas?'Haz clic en la gráfica del bosque de arriba.':'Aún no has hecho clic.'}</span><button data-check="${id}">Comprobar</button></div>`; }
+  if(e.tipo==='text') h+=`<textarea id="in_${id}" placeholder="Escribe aquí con tus palabras…"></textarea><div class="row" style="justify-content:space-between"><span class="unit" id="cnt_${id}">0 palabras</span><button data-check="${id}">Guardar respuesta</button></div>`;
+  if(e.tipo==='game') h+=`<div id="game_${id}"></div>`;
+  h+=`<div class="fb" id="fb_${id}"></div>`;
+  box.innerHTML=h;
+  if(e.tipo==='text') $('#in_'+id).addEventListener('input',ev=>{ $('#cnt_'+id).textContent=words(ev.target.value)+' palabras'; });
+  if(e.tipo==='click' && !e.useCanvas) $('#ck_'+id).addEventListener('click',ev=>clickPick(id,ev));
+  if(e.tipo==='game') GAMES[e.game].init(id);
+  restoreEx(id);
+}
+const clickMaps={};
+function clickPick(id,ev){
+  const r=S.res[id]; if(r&&(r.ok||r.closed)) return;
+  const map=clickMaps[id]; if(!map) return; const rect=ev.target.getBoundingClientRect(); const x=map.inv(ev.clientX-rect.left);
+  S.pick=S.pick||{}; S.pick[id]=Math.round(x*10)/10; $('#ckv_'+id).innerHTML=`Elegiste: <b>${fmt(S.pick[id],1)}</b> ${esc(EX[id].unit||'')}`; drawEx(id); save();
+}
+function drawEx(id){
+  const e=EX[id];
+  if(e.top){ const cv=$('#top_'+id); if(cv&&cv.offsetParent) plot(cv,e.top(false)); }
+  if(e.tipo==='vmc') e.opts.forEach((o,i)=>{ const cv=$(`#vo_${id}_${i}`); if(cv&&cv.offsetParent) plot(cv,o.p(false)); });
+  if(e.tipo==='click' && !e.useCanvas){ const cv=$('#ck_'+id); if(!cv||!cv.offsetParent) return; const o=e.plot(false); const px=(S.pick||{})[id]; const r=S.res[id];
+    if(px!==undefined) o.series.push({vline:px,color:COL.c,dash:[6,4],width:2},{text:`tu clic: ${fmt(px,1)}`,at:[px,o.y1],dy:14,color:COL.c});
+    if(r&&(r.ok||r.closed)) o.series.push({vline:e.ans,color:COL.b,width:1.5,dash:[2,3]});
+    clickMaps[id]=plot(cv,o); }
+}
+function readVal(id){
+  const e=EX[id];
+  if(e.tipo==='num') return $('#in_'+id).value;
+  if(e.tipo==='mc'||e.tipo==='vmc'){ const r=document.querySelector(`input[name="in_${id}"]:checked`); return r?+r.value:null; }
+  if(e.tipo==='text') return $('#in_'+id).value;
+  if(e.tipo==='click') return (S.pick||{})[id];
+}
+function check(id){
+  const e=EX[id], v=readVal(id), fb=$('#fb_'+id), box=document.querySelector(`.ex[data-id="${id}"]`);
+  const r=S.res[id]||{tries:0};
+  if(r.ok||r.closed){ toast('Esta actividad ya está cerrada.'); return; }
+  if(e.tipo==='text'){ const w=words(v); if(w<e.min){ fb.className='fb bad'; fb.innerHTML=`Escribe al menos ${e.min} palabras (llevas ${w}).`; return; }
+    S.res[id]={val:v}; fb.className='fb note'; fb.innerHTML='Respuesta guardada ✓. La revisará el docente; puedes editarla y volver a guardar.'; box.classList.add('done'); after(); return; }
+  let ok;
+  if(e.tipo==='num'){ const x=parseNum(v); if(!isFinite(x)){ fb.className='fb bad'; fb.textContent='Escribe un número (usa punto o coma decimal).'; return; } ok=Math.abs(x-e.ans)<=e.tol; }
+  else if(e.tipo==='click'){ if(v===undefined||v===null){ fb.className='fb bad'; fb.textContent='Primero haz clic en la gráfica.'; return; } ok=Math.abs(v-e.ans)<=e.tol; }
+  else { if(v===null){ fb.className='fb bad'; fb.textContent='Elige una opción.'; return; } ok=v===e.ans; }
+  r.tries++; r.val=v;
+  if(ok){ r.ok=true; fb.className='fb ok'; fb.innerHTML=`<b>¡Correcto!</b> ${r.tries>1?'(segundo intento) ':''}${mathify(e.exp)}`; }
+  else if(r.tries<2){ fb.className='fb bad'; fb.innerHTML=`<b>Aún no.</b> Pista: ${mathify(e.hint||'revisa tu procedimiento.')} Te queda 1 intento.`; }
+  else { r.closed=true; fb.className='fb sol'; fb.innerHTML=`<b>Solución:</b> ${mathify(e.exp)}${(e.tipo==='mc')?` Respuesta correcta: «${mathify(e.opts[e.ans])}».`:''}${e.tipo==='vmc'?` Respuesta correcta: gráfica ${'ABCD'[e.ans]} (${esc(e.opts[e.ans].desc)}).`:''}`; }
+  S.res[id]=r; if(r.ok) box.classList.add('done'); else if(r.closed) box.classList.add('fail');
+  if(r.ok||r.closed) lockEx(id); drawEx(id); after();
+}
+function lockEx(id){ const box=document.querySelector(`.ex[data-id="${id}"]`); box.querySelectorAll('.opts input,.vopts input,input[type=text],button[data-check]').forEach(el=>el.disabled=true); }
+function restoreEx(id){
+  const e=EX[id], r=S.res[id], box=document.querySelector(`.ex[data-id="${id}"]`), fb=$('#fb_'+id); if(!r||e.tipo==='game') return;
+  if(e.tipo==='num'&&r.val!==undefined) $('#in_'+id).value=r.val;
+  if((e.tipo==='mc'||e.tipo==='vmc')&&r.val!==null&&r.val!==undefined){ const el=document.querySelector(`input[name="in_${id}"][value="${r.val}"]`); if(el) el.checked=true; }
+  if(e.tipo==='click'&&r.val!==undefined) $('#ckv_'+id).innerHTML=`Elegiste: <b>${fmt(r.val,1)}</b> ${esc(e.unit||'')}`;
+  if(e.tipo==='text'&&r.val){ $('#in_'+id).value=r.val; $('#cnt_'+id).textContent=words(r.val)+' palabras'; fb.className='fb note'; fb.textContent='Respuesta guardada ✓ (la revisa el docente).'; box.classList.add('done'); return; }
+  if(r.ok){ box.classList.add('done'); fb.className='fb ok'; fb.innerHTML=`<b>¡Correcto!</b> ${mathify(e.exp)}`; lockEx(id); }
+  else if(r.closed){ box.classList.add('fail'); fb.className='fb sol'; fb.innerHTML=`<b>Solución:</b> ${mathify(e.exp)}`; lockEx(id); }
+}
+document.addEventListener('click',ev=>{ const b=ev.target.closest('button[data-check]'); if(b) check(b.dataset.check); });
+
+/* ================= Juegos ================= */
+const shuffle=a=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+function gameDone(id,ok,summary,data){ const box=document.querySelector(`.ex[data-id="${id}"]`), fb=$('#fb_'+id);
+  const prev=S.res[id]||{}; const best=prev.best; S.res[id]={finished:true,ok:ok||!!prev.ok,summary:(ok||!prev.ok)?summary:prev.summary,data:(ok||!prev.ok)?data:prev.data,plays:(prev.plays||0)+1};
+  fb.className=ok?'fb ok':'fb sol'; fb.innerHTML=(ok?'<b>¡Reto logrado!</b> ':'<b>Reto terminado.</b> ')+esc(summary)+(ok?'':' Puedes intentarlo otra vez para mejorar.');
+  box.classList.toggle('done',S.res[id].ok); box.classList.toggle('fail',!S.res[id].ok); after(); }
+const LROUNDS=[
+  {q:'lim x→2 f(x)',opts:['3','2','5','No existe'],ans:0,p:L=>({x0:0,x1:4,y0:0,y1:6,mini:false,xl:'x',yl:'f(x)',series:[{fn:x=>0.5*x*x+1,color:K(L).a,width:3},{vline:2,color:K(L).g,dash:[3,4],width:1}]})},
+  {q:'lim x→2 f(x)',opts:['1','3','2','No existe'],ans:1,p:L=>({x0:0,x1:4,y0:0,y1:6,xl:'x',yl:'f(x)',series:[{fn:x=>x+1,color:K(L).a,width:3},{pts:[[2,3]],color:K(L).a,hollow:true,r:7},{pts:[[2,1]],color:K(L).a,r:6},{vline:2,color:K(L).g,dash:[3,4],width:1}]})},
+  {q:'lim x→2 f(x)',opts:['1','3','2','No existe'],ans:3,p:L=>({x0:0,x1:4,y0:0,y1:5,xl:'x',yl:'f(x)',series:[{fn:x=>1,to:2,color:K(L).a,width:3},{fn:x=>3,from:2,color:K(L).a,width:3},{pts:[[2,1]],color:K(L).a,hollow:true,r:7},{pts:[[2,3]],color:K(L).a,r:6},{vline:2,color:K(L).g,dash:[3,4],width:1}]})},
+  {q:'lim x→∞ f(x)',opts:['4','1','0','∞'],ans:0,p:L=>({x0:0,x1:20,y0:0,y1:5,xl:'x',yl:'f(x)',series:[{fn:x=>4-3*Math.exp(-0.4*x),color:K(L).a,width:3},{hline:4,color:K(L).g,dash:[3,4],width:1}]})},
+  {q:'lim x→∞ f(x)',opts:['6','0','1','No existe'],ans:1,p:L=>({x0:0.3,x1:30,y0:0,y1:8,xl:'x',yl:'f(x)',series:[{fn:x=>6/x,color:K(L).a,width:3}]})},
+  {q:'lim x→1 f(x)',opts:['0','2','1','No existe'],ans:1,p:L=>({x0:-1,x1:3,y0:-2,y1:6,xl:'x',yl:'f(x)',axes0:true,series:[{fn:x=>2*x,color:K(L).a,width:3},{pts:[[1,2]],color:K(L).a,hollow:true,r:7},{vline:1,color:K(L).g,dash:[3,4],width:1}]})}
+];
+const TROUNDS=[
+  {name:'Maíz: h(t) = 0.3t², día 10',f:h0,x0:10,m:6,mmin:0,mmax:15,step:0.05,o:{x0:0,x1:20,y0:0,y1:120,xl:'días',yl:'altura (cm)'}},
+  {name:'Canelo: W(t), día 100',f:W,x0:100,m:0.8,mmin:-1,mmax:3,step:0.01,o:{x0:0,x1:250,y0:240,y1:440,xl:'días',yl:'peso (kg)'}},
+  {name:'Bosque: V(t), 20 años',f:V,x0:20,m:dV(20),mmin:0,mmax:60,step:0.1,o:{x0:0,x1:50,y0:0,y1:900,xl:'edad (años)',yl:'volumen (m³/ha)'}}
+];
+const MPAIRS=[['x³','3x²'],['5','0'],['0.3t²','0.6t'],['1.2t','1.2'],['x⁴','4x³'],['−0.002t²','−0.004t']];
+const G={};
+const GAMES={
+ lightning:{ init(id){ const el=$('#game_'+id); el.innerHTML=`<div class="row"><button id="lgStart_${id}">▶ Empezar reto</button><span class="score" id="lgScore_${id}">Ronda 0/6 · Aciertos 0</span></div><div id="lgArea_${id}" style="display:none"><div class="plotbox"><canvas class="plot" id="lgCv_${id}" style="height:260px"></canvas></div><div style="font-size:20px;font-family:Cambria,serif;margin:6px 0" id="lgQ_${id}"></div><div class="lopts" id="lgO_${id}"></div></div>`;
+   $('#lgStart_'+id).onclick=()=>{ G[id]={i:0,ok:0,t0:Date.now(),log:[]}; $('#lgArea_'+id).style.display='block'; $('#lgStart_'+id).textContent='↺ Reiniciar'; this.round(id); }; },
+   round(id){ const g=G[id], R=LROUNDS[g.i]; $('#lgScore_'+id).textContent=`Ronda ${g.i+1}/6 · Aciertos ${g.ok}`; $('#lgQ_'+id).textContent=R.q+' = ?';
+     setTimeout(()=>plot($('#lgCv_'+id),R.p(false)),20);
+     $('#lgO_'+id).innerHTML=R.opts.map((o,j)=>`<button data-j="${j}">${o}</button>`).join('');
+     $$(`#lgO_${id} button`).forEach(b=>b.onclick=()=>{ const j=+b.dataset.j, good=j===R.ans; if(good) g.ok++; g.log.push({r:g.i+1,elegida:R.opts[j],correcta:R.opts[R.ans],ok:good});
+       b.classList.add(good?'right':'wrongb'); if(!good) $$(`#lgO_${id} button`)[R.ans].classList.add('right'); $$(`#lgO_${id} button`).forEach(x=>x.disabled=true);
+       setTimeout(()=>{ g.i++; if(g.i<LROUNDS.length) this.round(id); else { const secs=Math.round((Date.now()-g.t0)/1000); $('#lgScore_'+id).textContent=`Terminado · ${g.ok}/6 aciertos · ${secs} s`; gameDone(id,g.ok>=4,`${g.ok} de 6 aciertos en ${secs} s.`,{aciertos:g.ok,segundos:secs,log:g.log}); } },900); }); } },
+ tangent:{ init(id){ const el=$('#game_'+id); el.innerHTML=`<div class="row"><span class="score" id="tgScore_${id}"></span></div><div class="plotbox"><canvas class="plot" id="tgCv_${id}" style="height:320px"></canvas><div class="ctrls"><label>Pendiente de tu recta: <b id="tgLbl_${id}"></b><input type="range" id="tgSl_${id}"></label></div><div class="row"><button id="tgChk_${id}">Comprobar tangente</button><button class="secondary" id="tgRe_${id}">↺ Reiniciar reto</button><span class="unit" id="tgMsg_${id}"></span></div></div>`;
+   G[id]={i:0,tries:0,log:[]}; $('#tgRe_'+id).onclick=()=>{ G[id]={i:0,tries:0,log:[]}; this.setup(id); }; $('#tgChk_'+id).onclick=()=>this.check(id); $('#tgSl_'+id).oninput=()=>this.draw(id); this.setup(id); },
+   setup(id){ const g=G[id]; if(g.i>=TROUNDS.length) return; const R=TROUNDS[g.i], sl=$('#tgSl_'+id); sl.min=R.mmin; sl.max=R.mmax; sl.step=R.step; sl.value=R.mmin+(R.mmax-R.mmin)*0.15; $('#tgScore_'+id).textContent=`Ronda ${g.i+1}/3 · ${R.name}`; $('#tgMsg_'+id).textContent=''; this.draw(id); },
+   opts(id,light){ const g=G[id], R=TROUNDS[Math.min(g.i,TROUNDS.length-1)], m=+$('#tgSl_'+id).value, y0=R.f(R.x0); return Object.assign({},R.o,{series:[{fn:R.f,color:K(light).a,width:3,label:'curva'},{fn:x=>y0+m*(x-R.x0),color:K(light).c,width:2.5,label:`tu recta (pendiente ${fmt(m,2)})`},{pts:[[R.x0,y0]],color:K(light).d,r:6}]}); },
+   draw(id){ const g=G[id]; if(g.i>=TROUNDS.length) return; $('#tgLbl_'+id).textContent=fmt(+$('#tgSl_'+id).value,2); const cv=$('#tgCv_'+id); if(cv.offsetParent) plot(cv,this.opts(id,false)); },
+   check(id){ const g=G[id]; if(g.i>=TROUNDS.length) return; const R=TROUNDS[g.i], m=+$('#tgSl_'+id).value, err=Math.abs(m-R.m)/Math.abs(R.m); g.tries++;
+     if(err<=0.08){ g.log.push({ronda:R.name,tuya:m,real:R.m,error:err,intentos:g.tries}); $('#tgMsg_'+id).innerHTML=`✅ ¡Atrapada! Tu pendiente ${fmt(m,2)}; la real es ${fmt(R.m,2)} (error ${fmt(err*100,1)} %).`; g.tries=0; g.i++;
+       if(g.i<TROUNDS.length) setTimeout(()=>this.setup(id),1300); else { G[id].lastImg=null; gameDone(id,true,`3 tangentes atrapadas. Errores: ${g.log.map(l=>fmt(l.error*100,1)+' %').join(', ')}.`,{log:g.log}); $('#tgScore_'+id).textContent='¡Reto completo!'; } }
+     else $('#tgMsg_'+id).innerHTML=`${m>R.m?'⬇️ Muy empinada: baja la pendiente.':'⬆️ Poco empinada: súbela.'} (error ${fmt(err*100,0)} %)`; } },
+ memo:{ init(id){ const el=$('#game_'+id); el.innerHTML=`<div class="row"><button id="mmStart_${id}">▶ Empezar memorama</button><span class="score" id="mmScore_${id}">Parejas 0/6</span></div><div class="memo" id="mmGrid_${id}"></div>`;
+   $('#mmStart_'+id).onclick=()=>this.start(id); },
+   start(id){ const cards=shuffle(MPAIRS.flatMap((p,k)=>[{t:p[0],k,f:'f'},{t:p[1],k,f:'d'}])); G[id]={cards,open:[],found:0,fails:0,t0:Date.now(),lock:false};
+     $('#mmStart_'+id).textContent='↺ Reiniciar'; $('#mmScore_'+id).textContent='Parejas 0/6';
+     $('#mmGrid_'+id).innerHTML=cards.map((c,i)=>`<button data-i="${i}" aria-label="tarjeta">${esc(c.t)}${c.f==='d'?'<br><small style="font-size:11px;color:var(--muted)">derivada</small>':''}</button>`).join('');
+     $$(`#mmGrid_${id} button`).forEach(b=>b.onclick=()=>this.flip(id,b)); },
+   flip(id,b){ const g=G[id]; if(g.lock||b.classList.contains('up')||b.classList.contains('ok')) return; b.classList.add('up'); g.open.push(b);
+     if(g.open.length===2){ const [a,c]=g.open, A=g.cards[a.dataset.i], C=g.cards[c.dataset.i];
+       if(A.k===C.k&&A.f!==C.f){ a.classList.add('ok'); c.classList.add('ok'); g.open=[]; g.found++; $('#mmScore_'+id).textContent=`Parejas ${g.found}/6 · fallos ${g.fails}`;
+         if(g.found===6){ const secs=Math.round((Date.now()-g.t0)/1000); gameDone(id,true,`6 parejas en ${secs} s con ${g.fails} fallos.`,{segundos:secs,fallos:g.fails}); } }
+       else { g.fails++; g.lock=true; a.classList.add('wrong'); c.classList.add('wrong'); $('#mmScore_'+id).textContent=`Parejas ${g.found}/6 · fallos ${g.fails}`; setTimeout(()=>{ [a,c].forEach(x=>x.classList.remove('up','wrong')); g.open=[]; g.lock=false; },900); } } } }
+};
+function restoreGames(){ Object.keys(EX).filter(id=>EX[id].tipo==='game').forEach(id=>{ const r=S.res[id]; if(!r) return; const fb=$('#fb_'+id), box=document.querySelector(`.ex[data-id="${id}"]`);
+  fb.className=r.ok?'fb ok':'fb sol'; fb.innerHTML=(r.ok?'<b>Reto logrado.</b> ':'<b>Último intento:</b> ')+esc(r.summary||'')+' Puedes volver a jugar.'; box.classList.toggle('done',!!r.ok); box.classList.toggle('fail',!r.ok); }); }
+
+/* ================= Videos ================= */
+function buildVideos(){
+  const list=[];
+  $$('.video').forEach(v=>{ const id=v.dataset.yt; list.push(v);
+    v.innerHTML=`<div class="thumb" role="button" tabindex="0" aria-label="Reproducir video"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${id}/hqdefault.jpg"></div><div><div class="eyebrow">🎬 Video de apoyo (opcional)</div><div class="vt">${esc(v.dataset.t)}</div><div class="vm">${esc(v.dataset.c)} · YouTube</div><div class="vm" style="margin-top:6px"><a href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Abrir en YouTube ↗</a></div></div>`;
+    const open=()=>{ v.classList.add('open'); v.querySelector('.thumb').outerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="${esc(v.dataset.t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`; };
+    v.querySelector('.thumb').onclick=open; v.querySelector('.thumb').onkeydown=e=>{ if(e.key==='Enter') open(); }; });
+  $('#videoList').innerHTML=list.map(v=>`<li><a href="https://www.youtube.com/watch?v=${v.dataset.yt}" target="_blank" rel="noopener">${esc(v.dataset.t)}</a> <span class="why">${esc(v.dataset.c)}</span></li>`).join('');
+}
+
+/* ================= Navegación ================= */
+const lessons=$$('.lesson');
+function buildNav(){ $('#navList').innerHTML=lessons.map((l,i)=>`<button data-go="${i}"><span class="dot" id="dot${i}"></span><span class="label">${l.dataset.title}</span><span class="min">${l.dataset.min} min</span></button>`).join('');
+  $$('#navList button').forEach(b=>b.onclick=()=>{ go(+b.dataset.go); $('#nav').classList.remove('open'); }); }
+function go(i){
+  if(i>0&&(!S.nombre||!S.matricula)){ toast('Primero registra tu nombre y matrícula.'); i=0; }
+  i=Math.max(0,Math.min(lessons.length-1,i)); S.lesson=i; if(!S.visited.includes(i)) S.visited.push(i);
+  lessons.forEach((l,j)=>l.classList.toggle('active',j===i)); $$('#navList button').forEach((b,j)=>b.classList.toggle('active',j===i));
+  $('#btnPrev').disabled=i===0; $('#btnNext').textContent=i===lessons.length-1?'Fin':'Siguiente →';
+  window.scrollTo(0,0); save(); setTimeout(drawAll,40); if(i===lessons.length-1) updateReport();
+}
+$('#btnPrev').onclick=()=>go(S.lesson-1); $('#btnNext').onclick=()=>{ if(S.lesson<lessons.length-1) go(S.lesson+1); };
+$('#menuBtn').onclick=()=>$('#nav').classList.toggle('open');
+function after(){ save(); const ids=Object.keys(EX), done=ids.filter(isDone).length;
+  $('#progBadge').textContent=`${done} / ${ids.length} actividades`; $('#progress i').style.width=(100*done/ids.length)+'%';
+  lessons.forEach((l,i)=>{ const exs=[...l.querySelectorAll('.ex')].map(x=>x.dataset.id), d=$('#dot'+i); if(!d) return; const n=exs.filter(isDone).length;
+    d.className='dot'+((exs.length?n===exs.length:S.visited.includes(i))?' done':n?' half':''); });
+  if(S.lesson===lessons.length-1) updateReport(); }
+
+/* ================= Registro ================= */
+$('#inNombre').value=S.nombre; $('#inMatricula').value=S.matricula;
+function updWho(){ $('#whoChip').textContent=S.nombre?`${S.nombre} · ${S.matricula}`:'Sin registrar'; }
+$('#btnRegistro').onclick=()=>{ const n=$('#inNombre').value.trim().replace(/\s+/g,' '), m=$('#inMatricula').value.trim().replace(/\s+/g,'');
+  if(n.split(' ').length<2){ $('#regMsg').textContent='Escribe tu nombre completo (al menos nombre y apellido).'; return; }
+  if(m.length<5){ $('#regMsg').textContent='Escribe tu matrícula.'; return; }
+  S.nombre=n; S.matricula=m; updWho(); save(); $('#regMsg').textContent=/^zS\d{8}$/i.test(m)?'✓ Guardado.':'✓ Guardado. (Revisa tu matrícula: el formato UV suele ser zS seguido de 8 dígitos).'; setTimeout(()=>go(1),600); };
+
+/* ================= Animaciones e interactivos ================= */
+// Límite
+const fl=x=>(x*x-9)/(x-3); let limK=0, limTimer=null;
+function drawLim(){ const cv=$('#cvLim'); if(!cv.offsetParent) return; const d=2*Math.pow(0.5,limK), xl=3-d, xr=3+d;
+  plot(cv,{x0:0,x1:6,y0:0,y1:10,xl:'x',yl:'f(x)',series:[{fn:x=>Math.abs(x-3)<1e-9?NaN:fl(x),color:COL.a,width:3},{pts:[[3,6]],color:COL.a,hollow:true,r:7},{pts:[[xl,fl(xl)]],color:COL.c,r:7},{pts:[[xr,fl(xr)]],color:COL.d,r:7},{vline:3,color:COL.g,dash:[3,4],width:1},{text:`x = ${xl.toFixed(4)}`,at:[xl,fl(xl)],dx:-110,dy:-16,color:COL.c},{text:`x = ${xr.toFixed(4)}`,at:[xr,fl(xr)],dx:10,dy:18,color:COL.d}]}); }
+function limRow(){ const d=2*Math.pow(0.5,limK); if(d<0.0005) return; const xl=3-d, xr=3+d; $('#tabLim').insertAdjacentHTML('beforeend',`<tr><td class="num">${xl.toFixed(4)}</td><td class="num">${fl(xl).toFixed(4)}</td><td class="num">${xr.toFixed(4)}</td><td class="num">${fl(xr).toFixed(4)}</td></tr>`); }
+$('#btnLimPlay').onclick=()=>{ clearInterval(limTimer); limK=0; $('#tabLim').innerHTML='<tr><th>x (por la izquierda)</th><th class="num">f(x)</th><th>x (por la derecha)</th><th class="num">f(x)</th></tr>'; limRow(); drawLim();
+  limTimer=setInterval(()=>{ limK++; if(limK>11){ clearInterval(limTimer); const t=$('#tabLim'); t.insertAdjacentHTML('beforeend',`<tr><td class="num">2.9990</td><td class="num">${fl(2.999).toFixed(4)}</td><td class="num">3.0010</td><td class="num">${fl(3.001).toFixed(4)}</td></tr>`); return; } if(limK%2===0||limK<4) limRow(); drawLim(); },650); };
+$('#btnLimReset').onclick=()=>{ clearInterval(limTimer); limK=0; $('#tabLim').innerHTML='<tr><th>x (por la izquierda)</th><th class="num">f(x)</th><th>x (por la derecha)</th><th class="num">f(x)</th></tr>'; drawLim(); };
+// Secante
+let secTimer=null;
+function drawSec(){ const dt=+$('#slDt').value, t0=10, y0=h0(t0), y1=h0(t0+dt), m=(y1-y0)/dt; $('#lblDt').textContent=dt.toFixed(2);
+  $('#secOut').innerHTML=`<span>Punto fijo: t = 10, h = ${fmt(y0,1)} cm</span><span>Segundo punto: t = ${fmt(t0+dt,2)}, h = ${fmt(y1,2)} cm</span><span>Pendiente de la secante: <b>${fmt(m,3)}</b> cm/día</span>`;
+  const cv=$('#cvSec'); if(!cv.offsetParent) return;
+  plot(cv,{x0:0,x1:20,y0:0,y1:120,xl:'días',yl:'altura (cm)',series:[{fn:h0,color:COL.a,width:3,label:'h(t) = 0.3t²'},{fn:t=>y0+m*(t-t0),color:COL.b,width:2.2,label:'secante'},{fn:t=>y0+6*(t-t0),color:COL.g,dash:[5,5],width:1.2,label:'tangente (meta)'},{pts:[[t0,y0]],color:COL.d,r:6},{pts:[[t0+dt,y1]],color:COL.b,r:6}]}); }
+$('#slDt').oninput=drawSec;
+$('#btnSecPlay').onclick=()=>{ clearInterval(secTimer); const steps=[8,4,2,1,0.5,0.1,0.01]; let k=0; $('#tabSec').innerHTML='<tr><th class="num">Δt</th><th class="num">h(10+Δt)</th><th class="num">pendiente de la secante</th></tr>';
+  const stepF=()=>{ const dt=steps[k]; $('#slDt').value=dt; drawSec(); $('#tabSec').insertAdjacentHTML('beforeend',`<tr><td class="num">${dt}</td><td class="num">${fmt(h0(10+dt),4)}</td><td class="num">${fmt((h0(10+dt)-h0(10))/dt,4)}</td></tr>`); k++; if(k>=steps.length) clearInterval(secTimer); };
+  stepF(); secTimer=setInterval(stepF,1100); };
+// Zoom
+function drawZoom(){ const z=Math.pow(10,+$('#slZoom').value), cx=100, cy=W(cx), wx=125/z, wy=(wx*0.8)+0.5; $('#lblZoom').textContent=(z<10?z.toFixed(1):Math.round(z))+'×';
+  const cv=$('#cvZoom'); if(!cv.offsetParent) return; plot(cv,{x0:cx-wx,x1:cx+wx,y0:cy-wy*1.25,y1:cy+wy*1.25,xl:'días',yl:'peso de Canelo (kg)',series:[{fn:W,color:COL.a,width:3,label:'W(t) (curva)'},{fn:t=>cy+0.8*(t-cx),color:COL.c,dash:[6,5],width:1.6,label:'tangente en t = 100 (pendiente 0.8)'},{pts:[[cx,cy]],color:COL.d,r:6}]}); }
+$('#slZoom').oninput=drawZoom;
+// Canelo
+function drawCow(){ const t=S.cow.t; $('#slCowT').value=t; $('#lblCowT').textContent=t; const w=W(t);
+  $('#cowActor').style.fontSize=(40+ (w-250)*0.35)+'px'; $('#cowInfo').innerHTML=`Día <b>${t}</b><br>Peso: <b>${fmt(w,1)} kg</b><br>Ganancia diaria hoy: <b>${fmt(dW(t),3)} kg/día</b>`;
+  const cv=$('#cvCow'); if(!cv.offsetParent) return; plot(cv,{x0:0,x1:250,y0:0,y1:450,xl:'días en el corral',yl:'peso (kg) · GDP × 200',series:[{fn:W,color:COL.b,width:3,label:'peso W(t) (kg)'},{fn:t=>200*dW(t),color:COL.a,width:2.5,dash:[6,4],label:'ganancia diaria W′(t) × 200 (para verla)'},{vline:t,color:COL.c,width:1.5},{pts:[[t,w]],color:COL.d,r:6}]}); }
+$('#slCowT').oninput=e=>{ S.cow.t=+e.target.value; drawCow(); save(); };
+$('#tabCowH').innerHTML=`<tr><th class="num">h (días)</th><th class="num">W(60 + h)</th><th class="num">ganancia promedio [W(60+h) − W(60)]/h</th></tr>`+[10,1,0.1,0.01].map(h=>`<tr><td class="num">${h}</td><td class="num">${fmt(W(60+h),4)}</td><td class="num">${fmt((W(60+h)-W(60))/h,5)}</td></tr>`).join('');
+function cowSimOpts(light){ const {p,c}=S.cow, tv=tVenta(p,c); return {x0:0,x1:250,y0:0,y1:90,xl:'días en el corral',yl:'$ por día',series:[{fn:t=>p*dW(t),color:K(light).a,width:3,label:'lo que Canelo produce: p·W′(t)'},{hline:c,color:K(light).d,width:2.5,label:'lo que cuesta su comida: c'},{vline:tv,color:K(light).c,dash:[6,4],width:1.6,label:`mejor día de venta ≈ ${fmt(tv,0)}`}]}; }
+function ganOpts(light){ const {p,c}=S.cow, tv=tVenta(p,c), Gf=t=>p*(W(t)-250)-c*t; return {x0:0,x1:250,y0:Math.min(-500,Gf(250)-200),y1:Math.max(500,Gf(tv)*1.25),xl:'días en el corral',yl:'ganancia acumulada ($)',axes0:true,series:[{fn:Gf,color:K(light).b,width:3,label:'G(t) = p·[W(t) − 250] − c·t'},{pts:[[tv,Gf(tv)]],color:K(light).c,r:6},{vline:tv,color:K(light).c,dash:[6,4],width:1.4}]}; }
+function drawCowSim(){ const {p,c}=S.cow; $('#slP').value=p; $('#slC').value=c; $('#lblP').textContent=p; $('#lblC').textContent=c; const tv=tVenta(p,c), Gf=t=>p*(W(t)-250)-c*t;
+  $('#cowSimOut').innerHTML=`<span>Mejor día de venta: <b>${fmt(tv,1)}</b></span><span>Peso ese día: <b>${fmt(W(tv),1)} kg</b></span><span>Ganancia máxima: <b>$${fmt(Gf(tv),0)}</b></span>${c/p>=1.2?'<span style="color:var(--red)">¡El alimento cuesta más de lo que Canelo produce desde el día 0!</span>':''}`;
+  if($('#cvSimCow').offsetParent){ plot($('#cvSimCow'),cowSimOpts(false)); plot($('#cvGan'),ganOpts(false)); } }
+$('#slP').oninput=e=>{ S.cow.p=+e.target.value; drawCowSim(); save(); }; $('#slC').oninput=e=>{ S.cow.c=+e.target.value; drawCowSim(); save(); };
+// Bosque
+function treeOpts(light){ const t=S.treeT, s=[{fn:dV,from:0.5,color:K(light).a,width:3,label:'ICA = V′(t)'},{fn:x=>V(x)/x,from:0.5,color:K(light).b,width:3,label:'IMA = V(t)/t'},{vline:t,color:K(light).c,width:1.6,label:`edad elegida: ${fmt(t,1)} años`}];
+  const pk=(S.pick||{}).f6; if(pk!==undefined) s.push({vline:pk,color:K(light).d,dash:[5,4],width:1.6,label:`tu clic (ICA máx.): ${fmt(pk,1)}`}); return {x0:0,x1:60,y0:0,y1:35,xl:'edad (años)',yl:'m³/ha/año',legendRight:true,series:s}; }
+function drawTree(){ const t=S.treeT; $('#slTreeT').value=t; $('#lblTreeT').textContent=fmt(t,1); const v=V(t);
+  $('#treeActor').style.fontSize=(24+v*0.13)+'px'; $('#treeActor').textContent=t<4?'🌱':'🌲';
+  $('#treeInfo').innerHTML=`Edad <b>${fmt(t,1)}</b> años<br>V = <b>${fmt(v,1)}</b> m³/ha<br>ICA = V′ = <b>${fmt(dV(t),2)}</b> · IMA = V/t = <b>${fmt(v/t,2)}</b> m³/ha/año<br>ICA − IMA = <b>${fmt(dV(t)-v/t,2)}</b> ${Math.abs(dV(t)-v/t)<0.05?'⬅️ ¡se igualan!':dV(t)>v/t?'(conviene esperar)':'(el promedio ya baja)'}`;
+  const cv=$('#cvTree'); if(cv.offsetParent) clickMaps.f6=plot(cv,treeOpts(false)); }
+$('#slTreeT').oninput=e=>{ S.treeT=+e.target.value; drawTree(); save(); };
+$('#cvTree').addEventListener('click',ev=>{ clickPick('f6',ev); drawTree(); });
+function drawHf(){ const hs=[1,0.1,0.01,0.001], h=hs[+$('#slHf').value]; $('#lblHf').textContent=h; const q=(V(20+h)-V(20))/h;
+  $('#hfOut').innerHTML=`<span>V(20) = ${fmt(V(20),3)}</span><span>V(20 + ${h}) = ${fmt(V(20+h),3)}</span><span>[V(20+h) − V(20)]/h = <b>${fmt(q,3)}</b> m³/ha/año</span>`; }
+$('#slHf').oninput=drawHf;
+function drawAll(){ drawLim(); drawSec(); drawZoom(); drawCow(); drawCowSim(); drawTree(); drawHf(); Object.keys(EX).forEach(drawEx); Object.keys(GAMES).forEach(k=>{}); Object.keys(EX).filter(id=>EX[id].game==='tangent').forEach(id=>GAMES.tangent.draw(id)); }
+window.addEventListener('resize',()=>{ clearTimeout(window._rz); window._rz=setTimeout(drawAll,120); });
+
+/* ================= Reporte ================= */
+function counts(){ const ids=Object.keys(EX); return {ids,done:ids.filter(isDone).length,ok1:ids.filter(id=>S.res[id]&&S.res[id].ok&&S.res[id].tries===1).length,ok2:ids.filter(id=>S.res[id]&&S.res[id].ok&&S.res[id].tries>1).length,sol:ids.filter(id=>S.res[id]&&S.res[id].closed).length,games:ids.filter(id=>EX[id].tipo==='game'),open:ids.filter(id=>EX[id].tipo==='text')}; }
+function updateReport(){ const C=counts();
+  const items=[[!!(S.nombre&&S.matricula),`Registro: ${S.nombre||'—'} · ${S.matricula||'—'}`],...[2,3,4,5,6,7,8].map(s=>{ const xs=C.ids.filter(id=>EX[id].sec===s), n=xs.filter(isDone).length; return [n===xs.length,`${SECS[s]}: ${n}/${xs.length}`]; })];
+  $('#checklist').innerHTML=items.map(([ok,t])=>`<li class="${ok?'ok':''}">${esc(t)}</li>`).join('');
+  $('#resumen').innerHTML=`<p>Actividades completadas: <b>${C.done} de ${C.ids.length}</b></p><p>Correctas al primer intento: <b>${C.ok1}</b> · al segundo: <b>${C.ok2}</b> · con solución mostrada: <b>${C.sol}</b></p><p>Retos logrados: <b>${C.games.filter(id=>S.res[id]&&S.res[id].ok).length} de ${C.games.length}</b></p><p>Preguntas abiertas para el docente: <b>${C.open.length}</b></p><p>Tiempo de trabajo registrado: <b>${Math.round(S.secs/60)} min</b></p>`; }
+const LOGO={};
+function loadLogo(k,src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>{ const c=document.createElement('canvas'); c.width=im.naturalWidth; c.height=im.naturalHeight; const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0); try{ LOGO[k]={src:c.toDataURL('image/jpeg',0.92),w:c.width,h:c.height}; }catch(e){} res(); }; im.onerror=()=>res(); im.src=src; }); }
+loadLogo('uv','logos/uv.jpg');
+function figImg(o,w=1100,h=520){ const c=document.createElement('canvas'); plot(c,o,true,w,h); return {src:c.toDataURL('image/png'),w,h}; }
+const pdfSafe=s=>String(s??'').replace(/[−–—]/g,'-').replace(/[“”«»]/g,'"').replace(/[‘’]/g,"'").replace(/…/g,'...').replace(/≈\s?/g,'aprox. ').replace(/≤/g,'<=').replace(/≥/g,'>=').replace(/[→⟶]/g,'->').replace(/×/g,'x').replace(/₀/g,'0').replace(/⁻/g,'-').replace(/⁺/g,'+').replace(/ⁿ/g,'^n').replace(/⁴/g,'^4').replace(/∞/g,'infinito').replace(/Δ/g,'D').replace(/′/g,"'").replace(/[   ]/g,' ').replace(/³/g,'^3').replace(/²/g,'^2').replace(/[^\x09\x0A\x20-\x7E¡-ÿ]/g,'');
+function respTexto(id){ const e=EX[id], r=S.res[id]; if(!r) return 'Sin responder';
+  if(e.tipo==='game') return r.summary||'Sin jugar';
+  if(r.val===undefined||r.val===null) return 'Sin responder';
+  if(e.tipo==='num') return `${r.val} ${e.unit||''}`.trim();
+  if(e.tipo==='mc') return `${String.fromCharCode(97+r.val)}) ${e.opts[r.val]}`;
+  if(e.tipo==='vmc') return `Gráfica ${'ABCD'[r.val]}: ${e.opts[r.val].desc}`;
+  if(e.tipo==='click') return `Clic en ${fmt(r.val,1)} ${e.unit||''}`;
+  return r.val; }
+function estado(id){ const r=S.res[id], e=EX[id]; if(!r) return 'Pendiente'; if(e.tipo==='text') return r.val?'Revisión docente':'Pendiente'; if(e.tipo==='game') return r.ok?'Reto logrado':'Reto intentado'; if(r.ok) return r.tries===1?'Correcto':'Correcto (2o intento)'; if(r.closed) return 'Incorrecto'; return `En proceso (${r.tries} int.)`; }
+function generarPDF(){ if(!S.nombre||!S.matricula){ toast('Registra tu nombre y matrícula en Inicio.'); return; } if(!window.jspdf){ toast('No se pudo cargar el generador de PDF. Revisa tu conexión y recarga.',6000); return; }
+  $('#btnPDF').disabled=true; $('#pdfMsg').textContent='Generando…'; setTimeout(()=>{ try{ construirPDF(); $('#pdfMsg').textContent='Reporte generado ✓. Revisa tus descargas.'; }catch(err){ console.error(err); $('#pdfMsg').textContent='Error: '+err.message; } finally{ $('#btnPDF').disabled=false; } },30); }
+$('#btnPDF').onclick=generarPDF;
+$('#btnReset').onclick=()=>{ if(confirm('¿Borrar todo tu avance en este navegador? No se puede deshacer.')){ try{localStorage.removeItem(KEY);}catch(e){} location.reload(); } };
+function construirPDF(){
+  const {jsPDF}=window.jspdf, doc=new jsPDF({unit:'mm',format:'a4',compress:true});
+  const PW=210,PH=297,M=16,CW=PW-2*M,TOP=22,BOT=PH-16, OSC=[16,46,61],MENTA=[15,159,116],TXT=[27,36,48],GRIS=[95,106,120];
+  let y=TOP, fig=0;
+  const F=(est='normal',tam=10,col=TXT)=>{ doc.setFont('helvetica',est); doc.setFontSize(tam); doc.setTextColor(...col); };
+  const newPage=()=>{ doc.addPage(); y=TOP; }, space=h=>{ if(y+h>BOT) newPage(); };
+  const para=(t,o={})=>{ const tam=o.tam||10, lh=tam*0.46; F(o.est||'normal',tam,o.col||TXT); pdfSafe(t).split('\n').forEach(p=>{ doc.splitTextToSize(p,CW-(o.ind||0)).forEach(l=>{ space(lh+0.5); doc.text(l,M+(o.ind||0),y); y+=lh; }); }); y+=o.after??2; };
+  const section=t=>{ space(40); y+=2; F('bold',14,OSC); doc.text(pdfSafe(t),M,y); doc.setDrawColor(...MENTA); doc.setLineWidth(0.8); doc.line(M,y+2,M+18,y+2); y+=8; };
+  const figure=(img,cap,wmm=CW)=>{ const h=img.h*wmm/img.w; space(h+12); doc.addImage(img.src,'PNG',M,y,wmm,h,undefined,'FAST'); doc.setDrawColor(210,215,222); doc.setLineWidth(0.2); doc.rect(M,y,wmm,h); y+=h+4; fig++; F('normal',8.8,GRIS); doc.splitTextToSize(pdfSafe(`Figura ${fig}. ${cap}`),CW).forEach(l=>{doc.text(l,M,y);y+=3.8;}); y+=3; };
+  const C=counts(); const fecha=new Date().toLocaleString('es-MX',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  if(LOGO.uv){ const h=24,w=LOGO.uv.w*h/LOGO.uv.h; doc.addImage(LOGO.uv.src,'JPEG',M,8,w,h,undefined,'FAST'); }
+  F('bold',11,OSC); doc.text('UNIVERSIDAD VERACRUZANA',PW-M,15,{align:'right'}); F('normal',9.5,GRIS); doc.text('Ingeniería en Agronomía',PW-M,20.5,{align:'right'}); doc.text(pdfSafe(`Experiencia educativa: ${EE}`),PW-M,25.5,{align:'right'});
+  doc.setFillColor(...OSC); doc.rect(0,38,PW,70,'F'); doc.setFillColor(...MENTA); doc.rect(0,108,PW,2.2,'F');
+  F('bold',9.5,[168,232,210]); doc.text('REPORTE DE CLASE INTERACTIVA · EE MATEMÁTICAS',M,52);
+  F('bold',24,[255,255,255]); doc.text('Límites, nociones y',M,67); doc.text('aplicación de derivadas',M,78);
+  F('normal',11.5,[220,234,245]); doc.text(pdfSafe('Casos: el novillo en engorda y el turno forestal de Pinus patula'),M,95);
+  y=124; const campo=(k,v,tam=13)=>{ F('bold',9,MENTA); doc.text(pdfSafe(k),M,y); y+=6; F('bold',tam,TXT); const l=doc.splitTextToSize(pdfSafe(v),CW); doc.text(l,M,y); y+=l.length*tam*0.45+5; };
+  campo('ESTUDIANTE',S.nombre,17); campo('MATRÍCULA',S.matricula,15); campo('DOCENTE',DOCENTE,12); campo('EXPERIENCIA EDUCATIVA',`${EE} · Tema: ${TEMA}`,12); campo('FECHA DE GENERACIÓN',fecha,11);
+  y+=4; doc.setFillColor(236,246,242); doc.roundedRect(M,y,CW,46,3,3,'F'); F('bold',10,OSC); doc.text('RESUMEN',M+6,y+8); F('normal',10.5,TXT);
+  doc.text(pdfSafe(`Actividades completadas: ${C.done} de ${C.ids.length}`),M+6,y+16);
+  doc.text(pdfSafe(`Correctas al primer intento: ${C.ok1}   ·   al segundo intento: ${C.ok2}   ·   con solución mostrada: ${C.sol}`),M+6,y+23);
+  doc.text(pdfSafe(`Retos logrados: ${C.games.filter(id=>S.res[id]&&S.res[id].ok).length} de ${C.games.length}   ·   Preguntas abiertas para revisión del docente: ${C.open.length}`),M+6,y+30);
+  doc.text(pdfSafe(`Tiempo de trabajo registrado: ${Math.round(S.secs/60)} min`),M+6,y+37);
+  newPage();
+  [2,3,4,5,6,7,8].forEach(s=>{ section(SECS[s]);
+    C.ids.filter(id=>EX[id].sec===s).forEach(id=>{ const e=EX[id], r=S.res[id]||{}, st=estado(id); space(20);
+      F('bold',10,OSC); doc.text(pdfSafe(`${e.tipo==='game'?'Reto':'Actividad'} ${e.n}`),M,y);
+      const col=st.startsWith('Correcto')||st==='Reto logrado'?MENTA:st==='Incorrecto'?[200,60,60]:st==='Revisión docente'?[37,99,235]:GRIS;
+      F('bold',9.5,col); doc.text(pdfSafe(st),PW-M,y,{align:'right'}); y+=4.8;
+      para(e.enun.replace(/\^\{([^}]+)\}/g,'^($1)'),{tam:9.5,col:GRIS,after:1});
+      if(e.tipo==='text') para(respTexto(id),{tam:10,est:'italic',ind:4,after:3});
+      else { para((e.tipo==='game'?'Resultado: ':'Respuesta: ')+respTexto(id),{tam:10,ind:4,after:(r.ok||r.closed)&&e.exp?1:3});
+        if(e.tipo==='game'&&r.data&&r.data.log&&e.game==='lightning') para(r.data.log.map(l=>`R${l.r}: ${l.elegida}${l.ok?' (bien)':' (correcta: '+l.correcta+')'}`).join(' · '),{tam:8.8,col:[90,100,110],ind:4,after:3});
+        if(e.tipo==='game'&&r.data&&r.data.log&&e.game==='tangent') para(r.data.log.map(l=>`${l.ronda}: tu pendiente ${fmt(l.tuya,2)} vs real ${fmt(l.real,2)} (error ${fmt(l.error*100,1)} %, ${l.intentos} intento(s))`).join('\n'),{tam:8.8,col:[90,100,110],ind:4,after:3});
+        if((r.ok||r.closed)&&e.exp) para('Solución: '+e.exp.replace(/\^\{([^}]+)\}/g,'^($1)'),{tam:8.8,col:[90,100,110],ind:4,after:3}); }
+    });
+    if(s===6){ figure(figImg(cowSimOpts(true)),`Simulador del ranchero con los últimos valores del estudiante: p = $${S.cow.p}/kg y c = $${S.cow.c}/día. El mejor día de venta es donde p·W'(t) = c.`); figure(figImg(ganOpts(true),1100,440),'Ganancia acumulada G(t); su cima coincide con G\'(t) = 0.'); }
+    if(s===7){ figure(figImg(treeOpts(true)),`ICA (derivada del volumen) e IMA del rodal de Pinus patula. Edad elegida por el estudiante: ${fmt(S.treeT,1)} años; turno técnico donde ICA = IMA (aprox. 27.2 años).`); }
+  });
+  const n=doc.getNumberOfPages(); for(let i=1;i<=n;i++){ doc.setPage(i); F('normal',8,GRIS); doc.setDrawColor(220,225,230); doc.setLineWidth(0.2); doc.line(M,PH-11,PW-M,PH-11); doc.text(pdfSafe(`${S.nombre} · ${S.matricula} · ${TEMA}`),M,PH-7); doc.text(`Página ${i} de ${n}`,PW-M,PH-7,{align:'right'}); }
+  doc.save(pdfSafe(`LimitesDerivadas_${S.matricula}.pdf`).replace(/[^\w.\-]/g,'_'));
+}
+
+/* ================= Inicio ================= */
+$$('.ex').forEach(renderEx); restoreGames(); buildVideos(); buildNav(); updWho(); after(); go(S.lesson||0);
+</script>
+</body>
+</html>

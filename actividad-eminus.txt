@@ -1,0 +1,17 @@
+ACTIVIDAD. Límites, nociones y aplicación de derivadas
+EE Matemáticas · Ingeniería en Agronomía · Docente: Dr. Gustavo Ortiz Hernández
+
+Propósito: comprender la noción de límite y la derivada como rapidez de cambio instantánea, y aplicarlas para decidir el mejor día de venta de un novillo en engorda y el turno de corta de una plantación de Pinus patula.
+Modalidad: individual. Tiempo aproximado: 60 minutos. Necesitas una calculadora.
+
+Clase interactiva: https://intelektia.github.io/limites_derivadas/
+
+Procedimiento:
+1. Abre la clase y registra tu nombre completo y tu matrícula.
+2. Lee el glosario del campo y recorre las secciones 1 a 7 en orden. Resuelve cada actividad (tienes 2 intentos) y juega los 3 retos.
+3. Responde con tus palabras las preguntas abiertas (recomendación para Doña Rosa, explicación del turno forestal y reflexión final).
+4. En la sección 9 descarga tu reporte PDF (LimitesDerivadas_<matrícula>.pdf).
+
+Entrega en Eminus 4: adjunta el PDF en «Adjuntar evidencias» y pulsa «Entregar actividad».
+
+Evaluación: la actividad se valora de forma global (no por reactivo), con base en el reporte completo: actividades resueltas, retos, gráficas, preguntas abiertas y reflexión.
